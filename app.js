@@ -3,18 +3,23 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-
-const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const compression = require('compression');
+const helmet = require('helmet');
+require('./authentication/passport');
 
 dotenv.config();
+
 const mongoDB = process.env.DATABASE_URL;
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error'));
 
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+const userRouter = require('./routes/userRouter');
+const postRouter = require('./routes/postRouter');
+const commentRouter = require('./routes/commentRouter');
 
 const app = express();
 
@@ -22,14 +27,18 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(compression());
+app.use(helmet());
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/users', userRouter);
+app.use('/posts', postRouter);
+app.use('/posts/:post_id/comments', commentRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
