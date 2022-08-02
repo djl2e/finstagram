@@ -2,4 +2,4 @@ const express = require('express');
 
 const router = express.Router();
 
-const userRouter = require('../controllers/userController');
+const postRouter = require('../controllers/postController');

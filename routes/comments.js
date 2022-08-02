@@ -2,4 +2,4 @@ const express = require('express');
 
 const router = express.Router();
 
-const userRouter = require('../controllers/userController');
+const commentRouter = require('../controllers/commentController');
