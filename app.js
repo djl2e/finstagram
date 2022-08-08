@@ -17,6 +17,8 @@ mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error'));
 
+const passport = require('passport');
+const authRouter = require('./routes/authRouter');
 const userRouter = require('./routes/userRouter');
 const postRouter = require('./routes/postRouter');
 const commentRouter = require('./routes/commentRouter');
@@ -36,9 +38,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(compression());
 app.use(helmet());
 
-app.use('/users', userRouter);
-app.use('/posts', postRouter);
-app.use('/posts/:post_id/comments', commentRouter);
+app.use('/auth', authRouter);
+app.use('/users', passport.authenticate('jwt', { session: false }), userRouter);
+app.use('/posts', passport.authenticate('jwt', { session: false }), postRouter);
+app.use('/posts/:post_id/comments', passport.authenticate('jwt', { session: false }), commentRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

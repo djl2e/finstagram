@@ -9,98 +9,19 @@ const Post = require('../models/post');
 
 dotenv.config();
 
-// new user signup
-exports.signup_post = [
-  body('form-name').trim().isLength({ min: 1 }).escape(),
-  body('form-username').trim().isLength({ min: 1 }).escape(),
-  body('form-password', 'Minimum password length is 6').trim().isLength({ min: 6 }).escape(),
-  body('form-confirm').trim().escape(),
-  body('form-description').trim().escape(),
-  (req, res, next) => {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) return res.json({ errors: errors.array() });
-
-    const name = req.body['form-name'];
-    const username = req.body['form-username'];
-    const password = req.body['form-password'];
-    const confirm = req.body['form-confirm'];
-    const description = req.body['form-description'];
-
-    if (password !== confirm) {
-      return res.status(401).json({
-        error: 'Password confirmation different from password',
-      });
-    }
-
-    // hash password and save user if not exists
-    bcrypt.hash(password, 10, (err, hash) => {
-      if (err) return next(err);
-
-      User.findOne({ username })
-        .exec((err, result) => {
-          if (err) return next(err);
-          if (result) {
-            return res.status(409).json({
-              error: 'Username already exists',
-            });
-          }
-          const user = new User({
-            name,
-            username,
-            password: hash,
-            description,
-            followers: [],
-            following: [],
-          });
-          user.save((err) => {
-            if (err) return next(err);
-            res.status(200).json({
-              message: `Signup successful! Welcome ${username}`,
-            });
-          });
-        });
-    });
-  },
-];
-
-// user login
-exports.login_post = (req, res, next) => {
-  passport.authenticate('local', { session: false }, (err, user) => {
-    if (err || !user) {
-      return res.status(401).json({
-        message: 'Incorrect username or password',
-        user,
-      });
-    }
-
-    // jwt token to remember user login status
-    jwt.sign({ user }, process.env.SECRET_KEY, { expiresIn: '1d' }, (err, token) => {
-      if (err) return res.status(400).json(err);
-      res.status(200).json({
-        user: {
-          _id: user._id,
-          username: user.username,
-        },
-        token,
-      });
-    });
-  })(req, res, next);
-};
-
 // search for another user
 // username that starts with keyword gets precedence
 // next is username that contains the keyword
 exports.search = [
   body('search').trim().escape(),
-
   (req, res, next) => {
     const { search } = req.body;
+    const { username } = req.user;
     User.find({ username: new RegExp(`^${search}`, 'i') })
       .sort({ username: 1 })
       .limit(20)
       .exec((err, initialSearch) => {
-        if (err) next(err);
+        if (err) res.json(err);
         if (initialSearch.length === 20) {
           res.json(initialSearch);
         }
@@ -109,8 +30,9 @@ exports.search = [
           .sort({ username: 1 })
           .limit(remainingLength)
           .exec((err, remainingSearch) => {
-            if (err) next(err);
-            const finalSearch = initialSearch.concat(...remainingSearch);
+            if (err) res.json(err);
+            const finalSearch = initialSearch.concat(...remainingSearch)
+              .filter((user) => user.username !== username);
             res.json(finalSearch);
           });
       });
@@ -127,7 +49,7 @@ exports.user = (req, res, next) => {
       Post.find({ user: req.params.id }).exec(callback);
     },
   }, (err, results) => {
-    if (err) return next(err);
+    if (err) return res.json(err);
     const { user, posts } = results;
     if (user === null) {
       return res.status(404).json({
@@ -141,80 +63,12 @@ exports.user = (req, res, next) => {
 
 // get user info for update form
 exports.update_get = (req, res, next) => {
-  User.findById(req.params.id, 'name username password description')
-    .exec((err, user) => {
-      if (err) return next(err);
-      res.json(user);
-    });
-};
-
-// user (id) follow another user (otherid)
-exports.follow_post = (req, res, next) => {
-  const { id, otherid } = req.params;
-  async.parallel({
-    userFollowing(callback) {
-      User.findById(id, 'following').exec(callback);
-    },
-    otherFollowers(callback) {
-      User.findById(otherid, 'followers').exec(callback);
-    },
-  }, (err, results) => {
-    if (err) return next(err);
-    const userFollowingFound = results.userFollowing.following;
-    const otherFollowersFound = results.otherFollowers.followers;
-    if (userFollowingFound.indexOf(otherid) !== -1 || otherFollowersFound.indexOf(id) !== -1) {
-      return res.status(409).json({
-        message: 'User already following other user',
-      });
-    }
-    const userFollowing = userFollowingFound.concat(otherid);
-    const otherFollowers = otherFollowersFound.concat(id);
-    async.parallel({
-      userUpdate(callback) {
-        User.findByIdAndUpdate(id, { following: userFollowing }, {}).exec(callback);
-      },
-      otherupdate(callback) {
-        User.findByIdAndUpdate(otherid, { followers: otherFollowers }, {}).exec(callback);
-      },
-    }, (err, update) => {
-      if (err) return next(err);
-      res.json('followed!');
-    });
-  });
-};
-
-// user (id) unfollow another user (otherid)
-exports.unfollow_post = (req, res, next) => {
-  const { id, otherid } = req.params;
-  async.parallel({
-    userFollowing(callback) {
-      User.findById(id, 'following').exec(callback);
-    },
-    otherFollowers(callback) {
-      User.findById(otherid, 'followers').exec(callback);
-    },
-  }, (err, results) => {
-    if (err) return next(err);
-    const userFollowingFound = results.userFollowing.following;
-    const otherFollowersFound = results.otherFollowers.followers;
-    if (userFollowingFound.indexOf(otherid) === -1 || otherFollowersFound.indexOf(id) === -1) {
-      return res.status(409).json({
-        message: 'User not following other user',
-      });
-    }
-    const userFollowing = userFollowingFound.filter((followingId) => followingId.toString() !== otherid);
-    const otherFollowers = otherFollowersFound.filter((followerId) => followerId.toString() !== id);
-    async.parallel({
-      userUpdate(callback) {
-        User.findByIdAndUpdate(id, { following: userFollowing }, {}).exec(callback);
-      },
-      otherupdate(callback) {
-        User.findByIdAndUpdate(otherid, { followers: otherFollowers }, {}).exec(callback);
-      },
-    }, (err, update) => {
-      if (err) return next(err);
-      res.json('unfollowed!');
-    });
+  const { user } = req;
+  const {
+    name, username, password, description,
+  } = user;
+  res.json({
+    name, username, password, description,
   });
 };
 
@@ -241,28 +95,105 @@ exports.update_post = [
       });
     }
 
+    const { user } = req;
+
     bcrypt.hash(password, 10, (err, hash) => {
-      if (err) next(err);
-      const user = {
+      if (err) res.json(err);
+      const updatedUserInfo = {
         name,
         password: hash,
         description,
       };
 
-      User.findByIdAndUpdate(req.params.id, user, {}, (err, updatedUser) => {
-        if (err) return next(err);
+      User.findByIdAndUpdate(user._id, updatedUserInfo, {}, (err, updatedUser) => {
+        if (err) return res.json(err);
         res.json('User info updated'); // check if this is the appropriate json to send
       });
     });
   },
 ];
 
+// user (id) follow another user (otherid)
+exports.follow_post = (req, res, next) => {
+  const { otherid } = req.params;
+  const { user } = req;
+  const id = user._id;
+  User.findById(otherid, 'followers')
+    .exec((err, otherUser) => {
+      if (err) return res.json(err);
+      const userFollowingFound = user.following;
+      const otherFollowersFound = otherUser.followers;
+      if (userFollowingFound.indexOf(otherid) !== -1 || otherFollowersFound.indexOf(id) !== -1) {
+        return res.status(409).json({
+          message: 'User already following other user',
+        });
+      }
+      const userFollowing = userFollowingFound.concat(otherid);
+      const otherFollowers = otherFollowersFound.concat(id);
+      async.parallel({
+        userUpdate(callback) {
+          User.findByIdAndUpdate(id, { following: userFollowing }, {}).exec(callback);
+        },
+        otherupdate(callback) {
+          User.findByIdAndUpdate(otherid, { followers: otherFollowers }, {}).exec(callback);
+        },
+      }, (err, update) => {
+        if (err) return res.json(err);
+        res.json('followed!');
+      });
+    });
+};
+
+// user (id) unfollow another user (otherid)
+exports.unfollow_post = (req, res, next) => {
+  const { otherid } = req.params;
+  const { user } = req;
+  const id = user._id.toString();
+
+  User.findById(otherid, 'followers')
+    .exec((err, otherUser) => {
+      if (err) return res.json(err);
+      const userFollowingFound = user.following;
+      const otherFollowersFound = otherUser.followers;
+      if (userFollowingFound.indexOf(otherid) === -1 || otherFollowersFound.indexOf(id) === -1) {
+        return res.status(409).json({
+          message: 'User not following other user',
+        });
+      }
+      const userFollowing = userFollowingFound
+        .filter((followingId) => followingId.toString() !== otherid);
+      const otherFollowers = otherFollowersFound
+        .filter((followerId) => followerId.toString() !== id);
+      async.parallel({
+        userUpdate(callback) {
+          User.findByIdAndUpdate(id, { following: userFollowing }, {}).exec(callback);
+        },
+        otherupdate(callback) {
+          User.findByIdAndUpdate(otherid, { followers: otherFollowers }, {}).exec(callback);
+        },
+      }, (err, update) => {
+        if (err) return res.json(err);
+        res.json('unfollowed!');
+      });
+    });
+};
+
 // delete user
 exports.delete_post = (req, res, next) => {
-  User.findByIdAndRemove(req.params.id, (err) => {
-    if (err) return next(err);
-    res.json('User delete'); // check if this is the appropriate json to send
-  });
+  res.json('Not yet implemented');
+  // const { user } = req;
+  // const id = user._id.toString();
+  // const { followers, following } = user;
+
+  // for (let i = 0; i < followers.length; i++) {
+  //   const otherId = followers[i]._id.toString();
+  //   const otherIdFollowing =
+  // }
+
+  // User.findByIdAndRemove(req.user._id, (err) => {
+  //   if (err) return res.json(err);
+  //   res.json('User delete'); // check if this is the appropriate json to send
+  // });
 };
 
 exports.logout_post = (req, res, next) => {

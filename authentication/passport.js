@@ -19,8 +19,15 @@ passport.use(
 
       if (!user) return done(null, false, { message: 'Incorrect username' });
 
+      if (typeof password === 'number') {
+        password = password.toString();
+      }
+
+      console.log(password, user.password);
+
       bcrypt.compare(password, user.password, (err, res) => {
         if (res) return done(null, user);
+        console.log(res);
         return done(null, false, { message: 'Incorrect password' });
       });
     });
@@ -33,7 +40,11 @@ passport.use(
       jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
       secretOrKey: process.env.SECRET_KEY,
     },
-    (jwtPayload, done) => done(null, jwtPayload),
+    (jwtPayload, done) => User.findById(jwtPayload.user._id)
+      .exec((err, user) => {
+        if (err) return done(err);
+        return done(null, user);
+      }),
   ),
 );
 
