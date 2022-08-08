@@ -1,10 +1,10 @@
-const passport = require('passport');
-const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const async = require('async');
 const bcrypt = require('bcryptjs');
+const mongoose = require('mongoose');
 const { body, validationResult } = require('express-validator');
 const User = require('../models/user');
+const Follow = require('../models/follow');
 const Post = require('../models/post');
 
 dotenv.config();
@@ -115,85 +115,54 @@ exports.update_post = [
 
 // user (id) follow another user (otherid)
 exports.follow_post = (req, res, next) => {
-  const { otherid } = req.params;
   const { user } = req;
   const id = user._id;
-  User.findById(otherid, 'followers')
-    .exec((err, otherUser) => {
+  const otherid = mongoose.Types.ObjectId(req.params.otherid);
+  Follow.findOne({ following: id, followed: otherid })
+    .exec((err, alreadyFollowing) => {
       if (err) return res.json(err);
-      const userFollowingFound = user.following;
-      const otherFollowersFound = otherUser.followers;
-      if (userFollowingFound.indexOf(otherid) !== -1 || otherFollowersFound.indexOf(id) !== -1) {
+      if (alreadyFollowing) {
         return res.status(409).json({
           message: 'User already following other user',
         });
       }
-      const userFollowing = userFollowingFound.concat(otherid);
-      const otherFollowers = otherFollowersFound.concat(id);
-      async.parallel({
-        userUpdate(callback) {
-          User.findByIdAndUpdate(id, { following: userFollowing }, {}).exec(callback);
-        },
-        otherupdate(callback) {
-          User.findByIdAndUpdate(otherid, { followers: otherFollowers }, {}).exec(callback);
-        },
-      }, (err, update) => {
+      const follow = new Follow({
+        following: id,
+        followed: otherid,
+      });
+      follow.save((err) => {
         if (err) return res.json(err);
-        res.json('followed!');
+        res.status(200).json({
+          message: 'follow successful',
+        });
       });
     });
 };
 
 // user (id) unfollow another user (otherid)
 exports.unfollow_post = (req, res, next) => {
-  const { otherid } = req.params;
   const { user } = req;
-  const id = user._id.toString();
-
-  User.findById(otherid, 'followers')
-    .exec((err, otherUser) => {
+  const id = user._id;
+  const otherid = mongoose.Types.ObjectId(req.params.otherid);
+  Follow.findOneAndRemove({ following: id, followed: otherid })
+    .exec((err) => {
       if (err) return res.json(err);
-      const userFollowingFound = user.following;
-      const otherFollowersFound = otherUser.followers;
-      if (userFollowingFound.indexOf(otherid) === -1 || otherFollowersFound.indexOf(id) === -1) {
-        return res.status(409).json({
-          message: 'User not following other user',
-        });
-      }
-      const userFollowing = userFollowingFound
-        .filter((followingId) => followingId.toString() !== otherid);
-      const otherFollowers = otherFollowersFound
-        .filter((followerId) => followerId.toString() !== id);
-      async.parallel({
-        userUpdate(callback) {
-          User.findByIdAndUpdate(id, { following: userFollowing }, {}).exec(callback);
-        },
-        otherupdate(callback) {
-          User.findByIdAndUpdate(otherid, { followers: otherFollowers }, {}).exec(callback);
-        },
-      }, (err, update) => {
-        if (err) return res.json(err);
-        res.json('unfollowed!');
+      res.status(200).json({
+        message: 'unfollow successful',
       });
     });
 };
 
 // delete user
 exports.delete_post = (req, res, next) => {
-  res.json('Not yet implemented');
-  // const { user } = req;
-  // const id = user._id.toString();
-  // const { followers, following } = user;
+  const { user } = req;
+  const id = user._id;
 
-  // for (let i = 0; i < followers.length; i++) {
-  //   const otherId = followers[i]._id.toString();
-  //   const otherIdFollowing =
-  // }
-
-  // User.findByIdAndRemove(req.user._id, (err) => {
-  //   if (err) return res.json(err);
-  //   res.json('User delete'); // check if this is the appropriate json to send
-  // });
+  User.findByIdAndRemove(id, (err) => {
+    if (err) return res.json(err);
+    console.log('yoo');
+    res.json('delete successful');
+  });
 };
 
 exports.logout_post = (req, res, next) => {
