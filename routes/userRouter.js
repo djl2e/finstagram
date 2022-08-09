@@ -8,7 +8,7 @@ const userController = require('../controllers/userController');
 router.get('/search', userController.search);
 
 // GET profile
-router.get('/profile', userController.profile);
+router.get('/profile', userController.profile, userController.user);
 
 // POST update
 router.post('/update', userController.update_post);

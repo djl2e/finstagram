@@ -61,7 +61,10 @@ exports.user = (req, res, next) => {
 };
 
 // get current user id
-exports.profile = async (req, res, next) => res.json({ id: req.user._id });
+exports.profile = (req, res, next) => {
+  req.params.id = req.user._id;
+  next();
+};
 
 // post (submit) form for updating user info
 exports.update_post = [
