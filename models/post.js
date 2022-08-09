@@ -8,10 +8,22 @@ const PostSchema = new Schema(
     caption: { type: String },
     image: { type: String, required: true },
     date: { type: Date, required: true },
-    likes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
   },
 );
+
+PostSchema
+  .virtual('comments', {
+    ref: 'Comment',
+    localField: '_id',
+    foreignField: 'post',
+  });
+
+PostSchema
+  .virtual('likes', {
+    ref: 'Like',
+    localField: '_id',
+    foreignField: 'post',
+  });
 
 PostSchema
   .virtual('url')
