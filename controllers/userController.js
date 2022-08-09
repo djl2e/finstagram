@@ -151,7 +151,6 @@ exports.delete_post = (req, res, next) => {
 
   User.findByIdAndRemove(id, (err) => {
     if (err) return res.json(err);
-    console.log('yoo');
     res.json('delete successful');
   });
 };
