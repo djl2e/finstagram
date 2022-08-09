@@ -39,38 +39,31 @@ exports.search = [
   },
 ];
 
-// get user info (including user posts)
+// get user info (including user following, followers, post)
 exports.user = (req, res, next) => {
-  async.parallel({
-    user(callback) {
-      User.findById(req.params.id).exec(callback);
-    },
-    posts(callback) {
-      Post.find({ user: req.params.id }).exec(callback);
-    },
-  }, (err, results) => {
-    if (err) return res.json(err);
-    const { user, posts } = results;
-    if (user === null) {
-      return res.status(404).json({
-        message: 'User not found',
+  User.findById(req.params.id)
+    .populate('following')
+    .populate('followers')
+    .populate('posts')
+    .exec((err, user) => {
+      if (err) res.json(err);
+      if (user === null) {
+        return res.status(404).json({
+          message: 'User not found',
+          user,
+        });
+      }
+      res.json({
         user,
+        following: user.following,
+        followers: user.followers,
+        posts: user.posts,
       });
-    }
-    res.status(200).json({ user, posts });
-  });
+    });
 };
 
-// get user info for update form
-exports.update_get = (req, res, next) => {
-  const { user } = req;
-  const {
-    name, username, password, description,
-  } = user;
-  res.json({
-    name, username, password, description,
-  });
-};
+// get current user id
+exports.profile = async (req, res, next) => res.json({ id: req.user._id });
 
 // post (submit) form for updating user info
 exports.update_post = [

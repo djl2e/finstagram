@@ -15,23 +15,29 @@ const UserSchema = new Schema(
 UserSchema
   .pre('findOneAndRemove', function (next) {
     const id = this._conditions._id;
-    console.log(id);
     Follow.deleteMany({ $or: [{ following: id }, { followed: id }] })
       .then(next());
   });
 
 UserSchema
   .virtual('followers', {
-    ref: 'User',
+    ref: 'Follow',
     localField: '_id',
     foreignField: 'followed',
   });
 
 UserSchema
   .virtual('following', {
-    ref: 'User',
+    ref: 'Follow',
     localField: '_id',
     foreignField: 'following',
+  });
+
+UserSchema
+  .virtual('posts', {
+    ref: 'Post',
+    localField: '_id',
+    foreignField: 'user',
   });
 
 UserSchema
