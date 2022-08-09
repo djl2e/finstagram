@@ -1,11 +1,9 @@
 const dotenv = require('dotenv');
-const async = require('async');
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const { body, validationResult } = require('express-validator');
 const User = require('../models/user');
 const Follow = require('../models/follow');
-const Post = require('../models/post');
 
 dotenv.config();
 

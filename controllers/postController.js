@@ -5,7 +5,10 @@ const Post = require('../models/post');
 
 exports.create_post = [
   body('form-caption').trim().escape(),
-
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.json({ errors: errors.array });
+  },
 ];
 
 // exports.signup_post = [

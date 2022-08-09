@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const compression = require('compression');
 const helmet = require('helmet');
-require('./authentication/passport');
+require('./passport');
 
 dotenv.config();
 
