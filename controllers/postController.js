@@ -4,6 +4,7 @@ const upload = require('../multer-file');
 const User = require('../models/user');
 const Post = require('../models/post');
 
+// create new post - user from token, caption and image from form
 exports.create_post = [
   upload.single('form-image'),
   body('form-caption').trim().escape(),
@@ -13,20 +14,21 @@ exports.create_post = [
 
     const { user } = req;
     const caption = req.body['form-caption'];
-    const image = req.file.filename;
+    const image = req.file.key;
     const date = Date.now();
 
     const post = new Post({
       user, caption, image, date,
     });
 
-    post.save((err) => {
+    post.save((err, newPost) => {
       if (err) res.json(err);
-      res.json('new post!');
+      res.json(newPost._id);
     });
   },
 ];
 
+// update caption
 exports.update_post = [
   body('form-caption').trim().escape(),
   (req, res, next) => {
@@ -34,9 +36,10 @@ exports.update_post = [
     if (!errors.isEmpty()) return res.json({ errors: errors.array });
 
     const update = { caption: req.body['form-caption'] };
-    Post.findByIdAndUpdate(req.params.id, update, (err, updatedPost) => {
+    console.log(update);
+    Post.findByIdAndUpdate(req.params.id, update, {}, (err, updatedPost) => {
       if (err) res.json(err);
-      res.json('post caption update');
+      res.json(updatedPost._id);
     });
   },
 ];
