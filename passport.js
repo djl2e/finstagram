@@ -23,11 +23,8 @@ passport.use(
         password = password.toString();
       }
 
-      console.log(password, user.password);
-
       bcrypt.compare(password, user.password, (err, res) => {
         if (res) return done(null, user);
-        console.log(res);
         return done(null, false, { message: 'Incorrect password' });
       });
     });
