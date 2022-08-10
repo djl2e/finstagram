@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Follow = require('./follow');
+const Like = require('./like');
 
 const { Schema } = mongoose;
 

@@ -20,6 +20,6 @@ router.get('/:id', postController.post_get);
 router.post('/:id/like', postController.like);
 
 // POST unlike
-router.post('/:id/dislike', postController.dislike);
+router.post('/:id/unlike', postController.unlike);
 
 module.exports = router;

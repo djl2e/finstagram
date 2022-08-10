@@ -1,8 +1,7 @@
 const { body, validationResult } = require('express-validator');
-const async = require('async');
 const upload = require('../multer-file');
-const User = require('../models/user');
 const Post = require('../models/post');
+const Like = require('../models/like');
 
 // create new post - user from token, caption and image from form
 exports.create_post = [
@@ -36,7 +35,6 @@ exports.update_post = [
     if (!errors.isEmpty()) return res.json({ errors: errors.array });
 
     const update = { caption: req.body['form-caption'] };
-    console.log(update);
     Post.findByIdAndUpdate(req.params.id, update, {}, (err, updatedPost) => {
       if (err) res.json(err);
       res.json(updatedPost._id);
@@ -52,13 +50,72 @@ exports.delete_post = (req, res, next) => {
 };
 
 exports.post_get = (req, res, next) => {
-  res.send('individual post page');
+  Post.findById(req.params.id)
+    .populate('user')
+    .populate('comments')
+    .populate('likes')
+    .exec((err, post) => {
+      if (err) return res.json(err);
+      if (post === null) {
+        return res.status(404).json({
+          message: 'Post not found',
+          post,
+        });
+      }
+      res.json({
+        post,
+        comments: post.comments,
+        likes: post.likes,
+      });
+    });
 };
 
 exports.like = (req, res, next) => {
-  res.send('not implemented');
+  Post.findById(req.params.id)
+    .exec((err, post) => {
+      if (err) return res.json(err);
+      if (post === null) {
+        return res.status(404).json({
+          message: 'Post not found',
+          post,
+        });
+      }
+
+      const like = new Like({
+        post,
+        likedBy: req.user,
+      });
+
+      Like.findOne({ post, likedBy: req.user })
+        .exec((err, exists) => {
+          if (err) return res.json(err);
+          if (exists) {
+            return res.status(409).json({
+              error: 'Post already liked',
+            });
+          }
+          like.save((err) => {
+            if (err) return res.json(err);
+            res.json('Post liked');
+          });
+        });
+    });
 };
 
-exports.dislike = (req, res, next) => {
-  res.send('not implemented');
+exports.unlike = (req, res, next) => {
+  Post.findById(req.params.id)
+    .exec((err, post) => {
+      if (err) return res.json(err);
+      if (post === null) {
+        return res.status(404).json({
+          message: 'Post not found',
+          post,
+        });
+      }
+      Like.findOneAndRemove({ post: post._id, likedBy: req.user._id })
+        .exec((err) => {
+          if (err) return res.json(err);
+          res.json('Post unliked');
+        });
+    });
 };

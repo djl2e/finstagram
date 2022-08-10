@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Like = require('./like');
 
 const { Schema } = mongoose;
 
@@ -10,6 +11,13 @@ const PostSchema = new Schema(
     date: { type: Date, required: true },
   },
 );
+
+PostSchema
+  .pre('findOneAndRemove', function (next) {
+    const id = this._conditions._id;
+    Like.deleteMany({ post: id })
+      .then(next());
+  });
 
 PostSchema
   .virtual('comments', {
