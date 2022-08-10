@@ -5,7 +5,6 @@ const Comment = require('../models/comment');
 exports.create_post = [
   body('form-comment').trim().escape(),
   (req, res, next) => {
-    console.log(req);
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.json({ errors: errors.array });
 
@@ -32,10 +31,23 @@ exports.create_post = [
   },
 ];
 
-exports.update_post = (req, res, next) => {
-  res.send('update comment');
-};
+exports.update_post = [
+  body('form-comment').trim().escape(),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.json({ errors: errors.array });
+
+    const update = { content: req.body['form-comment'] };
+    Comment.findByIdAndUpdate(req.params.id, update, (err, updatedComment) => {
+      if (err) res.json(err);
+      res.json(updatedComment._id);
+    });
+  },
+];
 
 exports.delete_post = (req, res, next) => {
-  res.send('delete comment');
+  Comment.findByIdAndRemove(req.params.id, (err) => {
+    if (err) return res.json(err);
+    res.json('comment deleted');
+  });
 };
