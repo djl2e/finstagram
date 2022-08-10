@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const Post = require('./post');
+const Comment = require('./comment');
 const Follow = require('./follow');
 const Like = require('./like');
 
@@ -14,10 +16,16 @@ const UserSchema = new Schema(
 );
 
 UserSchema
-  .pre('findOneAndRemove', function (next) {
+  .pre('findOneAndRemove', async function (next) {
     const id = this._conditions._id;
-    Follow.deleteMany({ $or: [{ following: id }, { followed: id }] })
-      .then(next());
+    const posts = await Post.find({ user: id });
+
+    Promise.all([
+      Post.deleteMany({ user: id }),
+      Comment.deleteMany({ $or: [{ user: id }, { post: { $in: posts } }] }),
+      Follow.deleteMany({ $or: [{ following: id }, { followed: id }] }),
+      Like.deleteMany({ $or: [{ likedBy: id }, { post: { $in: posts } }] }),
+    ]).then(next());
   });
 
 UserSchema

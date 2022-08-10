@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Comment = require('./comment');
 const Like = require('./like');
 
 const { Schema } = mongoose;
@@ -15,8 +16,10 @@ const PostSchema = new Schema(
 PostSchema
   .pre('findOneAndRemove', function (next) {
     const id = this._conditions._id;
-    Like.deleteMany({ post: id })
-      .then(next());
+    Promise.all([
+      Comment.deleteMany({ post: id }),
+      Like.deleteMany({ post: id }),
+    ]).then(next());
   });
 
 PostSchema
