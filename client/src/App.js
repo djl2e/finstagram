@@ -1,7 +1,8 @@
+import React, { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
+
+
 function App() {
-  fetch('http://localhost:3001/auth')
-  .then(response => response.text())
-  .then(data => console.log({data}));
 
   return (
     <div className="App">
