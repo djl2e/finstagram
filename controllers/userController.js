@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const { body, validationResult } = require('express-validator');
 const User = require('../models/user');
 const Follow = require('../models/follow');
+const s3Image = require('../aws-image/s3-image');
+const upload = require('../aws-image/multer-file');
 
 dotenv.config();
 
@@ -107,6 +109,27 @@ exports.update_post = [
   },
 ];
 
+exports.image_post = [
+  upload.single('form-user-image'),
+  async (req, res, next) => {
+    const { user } = req;
+
+    if (user.image !== 'blank.png') {
+      await s3Image.delete_image(user.image);
+    }
+
+    let image = 'blank.png';
+    if (req.file) {
+      image = req.file.key;
+    }
+
+    User.findByIdAndUpdate(user._id, { image }, {}, (err, updatedUser) => {
+      if (err) return res.json(err);
+      res.json('User image updated');
+    });
+  },
+];
+
 // user (id) follow another user (otherid)
 exports.follow_post = (req, res, next) => {
   const { user } = req;
@@ -148,9 +171,14 @@ exports.unfollow_post = (req, res, next) => {
 };
 
 // delete user
-exports.delete_post = (req, res, next) => {
+exports.delete_post = async (req, res, next) => {
   const { user } = req;
   const id = user._id;
+  const { image } = user;
+
+  if (image !== 'blank.png') {
+    await s3Image.delete_image(image);
+  }
 
   User.findByIdAndRemove(id, (err) => {
     if (err) return res.json(err);

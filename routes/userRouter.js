@@ -13,6 +13,9 @@ router.get('/profile', userController.profile, userController.user);
 // POST update
 router.post('/update', userController.update_post);
 
+// POST image update
+router.post('/image', userController.image_post);
+
 // POST delete
 router.post('/delete', userController.delete_post);
 

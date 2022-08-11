@@ -4,11 +4,13 @@ const dotenv = require('dotenv');
 const bcrypt = require('bcryptjs');
 const { body, validationResult } = require('express-validator');
 const User = require('../models/user');
+const upload = require('../aws-image/multer-file');
 
 dotenv.config();
 
 // new user signup
 exports.signup_post = [
+  upload.single('form-user-image'),
   body('form-name').trim().isLength({ min: 1 }).escape(),
   body('form-username').trim().isLength({ min: 1 }).escape(),
   body('form-password', 'Minimum password length is 6').trim().isLength({ min: 6 }).escape(),
@@ -24,6 +26,11 @@ exports.signup_post = [
     const password = req.body['form-password'];
     const confirm = req.body['form-confirm'];
     const description = req.body['form-description'];
+    let image = 'blank.png';
+
+    if (req.file) {
+      image = req.file.key;
+    }
 
     if (password !== confirm) {
       return res.status(401).json({
@@ -48,8 +55,7 @@ exports.signup_post = [
             username,
             password: hash,
             description,
-            followers: [],
-            following: [],
+            image,
           });
           user.save((err) => {
             if (err) return res.json(err);
