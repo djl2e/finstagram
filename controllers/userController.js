@@ -47,12 +47,14 @@ exports.user = (req, res, next) => {
     .populate('posts')
     .exec((err, user) => {
       if (err) res.json(err);
+
       if (user === null) {
         return res.status(404).json({
           message: 'User not found',
           user,
         });
       }
+
       res.json({
         user,
         following: user.following,
