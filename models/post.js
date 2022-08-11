@@ -14,7 +14,7 @@ const PostSchema = new Schema(
 );
 
 PostSchema
-  .pre('findOneAndRemove', function (next) {
+  .pre('findOneAndRemove', async function (next) {
     const id = this._conditions._id;
     Promise.all([
       Comment.deleteMany({ post: id }),

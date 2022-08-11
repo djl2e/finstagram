@@ -3,6 +3,7 @@ const Post = require('./post');
 const Comment = require('./comment');
 const Follow = require('./follow');
 const Like = require('./like');
+const s3Image = require('../aws-image/s3-image');
 
 const { Schema } = mongoose;
 
@@ -19,6 +20,10 @@ UserSchema
   .pre('findOneAndRemove', async function (next) {
     const id = this._conditions._id;
     const posts = await Post.find({ user: id });
+
+    Promise.all(
+      posts.map((post) => s3Image.delete_image(post.image)),
+    );
 
     Promise.all([
       Post.deleteMany({ user: id }),

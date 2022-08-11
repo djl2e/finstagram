@@ -1,7 +1,8 @@
 const { body, validationResult } = require('express-validator');
-const upload = require('../multer-file');
+const upload = require('../aws-image/multer-file');
 const Post = require('../models/post');
 const Like = require('../models/like');
+const s3Image = require('../aws-image/s3-image');
 
 // create new post - user from token, caption and image from form
 exports.create_post = [
@@ -42,7 +43,10 @@ exports.update_post = [
   },
 ];
 
-exports.delete_post = (req, res, next) => {
+exports.delete_post = async (req, res, next) => {
+  const post = await Post.findById(req.params.id);
+  await s3Image.delete_image(post.image);
+
   Post.findByIdAndRemove(req.params.id, (err) => {
     if (err) return res.json(err);
     res.json('post deleted');
