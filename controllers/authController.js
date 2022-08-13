@@ -4,37 +4,36 @@ const dotenv = require('dotenv');
 const bcrypt = require('bcryptjs');
 const { body, validationResult } = require('express-validator');
 const User = require('../models/user');
-const upload = require('../aws-image/multer-file');
 
 dotenv.config();
 
 // new user signup
 exports.signup_post = [
-  upload.single('form-user-image'),
   body('form-name').trim().isLength({ min: 1 }).escape(),
   body('form-username').trim().isLength({ min: 1 }).escape(),
   body('form-password', 'Minimum password length is 6').trim().isLength({ min: 6 }).escape(),
   body('form-confirm').trim().escape(),
-  body('form-description').trim().escape(),
   (req, res, next) => {
     const errors = validationResult(req);
 
-    if (!errors.isEmpty()) return res.json({ errors: errors.array() });
+    if (!errors.isEmpty()) {
+      const error = errors.array()[0];
+      const firstWord = error.param.split('-')[1];
+      const message = `${firstWord.charAt(0).toUpperCase()
+        + firstWord.slice(1)} ${error.msg.toLowerCase()}`;
+      return res.status(400).json({ message });
+    }
 
     const name = req.body['form-name'];
     const username = req.body['form-username'];
     const password = req.body['form-password'];
     const confirm = req.body['form-confirm'];
-    const description = req.body['form-description'];
-    let image = 'blank.png';
-
-    if (req.file) {
-      image = req.file.key;
-    }
+    const description = '';
+    const image = 'blank.png';
 
     if (password !== confirm) {
       return res.status(401).json({
-        error: 'Password confirmation different from password',
+        message: 'Password confirmation different from password.',
       });
     }
 
@@ -47,7 +46,7 @@ exports.signup_post = [
           if (err) return res.json(err);
           if (result) {
             return res.status(409).json({
-              error: 'Username already exists',
+              message: 'Username already exists.',
             });
           }
           const user = new User({
@@ -60,7 +59,7 @@ exports.signup_post = [
           user.save((err) => {
             if (err) return res.json(err);
             res.status(200).json({
-              message: `Signup successful! Welcome ${username}`,
+              message: 'Signup successful! Please Log In.',
             });
           });
         });
@@ -72,8 +71,8 @@ exports.signup_post = [
 exports.login_post = (req, res, next) => {
   passport.authenticate('local', { session: false }, (err, user) => {
     if (err || !user) {
-      return res.status(401).json({
-        message: 'Incorrect username or password',
+      return res.status(400).json({
+        message: 'Incorrect username or password.',
         user,
       });
     }
