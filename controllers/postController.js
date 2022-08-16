@@ -10,7 +10,13 @@ exports.create_post = [
   body('form-caption').trim().escape(),
   (req, res, next) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) return res.json({ errors: errors.array });
+    if (!errors.isEmpty()) {
+      const error = errors.array()[0];
+      const firstWord = error.param.split('-')[1];
+      const message = `${firstWord.charAt(0).toUpperCase()
+        + firstWord.slice(1)} ${error.msg.toLowerCase()}`;
+      return res.status(400).json({ message });
+    }
 
     const { user } = req;
     const caption = req.body['form-caption'];
@@ -33,7 +39,13 @@ exports.update_post = [
   body('form-caption').trim().escape(),
   (req, res, next) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) return res.json({ errors: errors.array });
+    if (!errors.isEmpty()) {
+      const error = errors.array()[0];
+      const firstWord = error.param.split('-')[1];
+      const message = `${firstWord.charAt(0).toUpperCase()
+        + firstWord.slice(1)} ${error.msg.toLowerCase()}`;
+      return res.status(400).json({ message });
+    }
 
     const update = { caption: req.body['form-caption'] };
     Post.findByIdAndUpdate(req.params.id, update, {}, (err, updatedPost) => {
@@ -95,7 +107,7 @@ exports.like = (req, res, next) => {
           if (err) return res.json(err);
           if (exists) {
             return res.status(409).json({
-              error: 'Post already liked',
+              message: 'Post already liked',
             });
           }
           like.save((err) => {

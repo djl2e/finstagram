@@ -14,6 +14,9 @@ router.get('/profile', userController.profile, userController.user);
 router.post('/update', userController.update_post);
 
 // POST image update
+router.post('/password', userController.password_post);
+
+// POST image update
 router.post('/image', userController.image_post);
 
 // POST delete
