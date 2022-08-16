@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-function SignUp(props) {
+function SignUp() {
   const [fullname, setFullname] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -30,12 +30,12 @@ function SignUp(props) {
   return (
     <div className="signup-page">
       <form action="/auth/signup" className="signup-form" onSubmit={submitForm}>
-        <p className="signup-error" hidden={error ? false : true}>{error}</p>
-        <p className="signup-error" hidden={error ? false : true}>Please try again.</p>
-        <input type="text" placeholder="Full Name" onChange={(e) => setFullname(e.target.value)}/>
-        <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)}/>
-        <input type="password" placeholder="Password" minLength="6" onChange={(e) => setPassword(e.target.value)}/>
-        <input type="password" placeholder="Confirm Password" minLength="6"onChange={(e) => setConfirm(e.target.value)}/>
+        <p className="error-message" hidden={error ? false : true}>{error}</p>
+        <p className="error-message" hidden={error ? false : true}>Please try again.</p>
+        <input type="text" placeholder="Full Name" required onChange={(e) => setFullname(e.target.value)}/>
+        <input type="text" placeholder="Username" required onChange={(e) => setUsername(e.target.value)}/>
+        <input type="password" placeholder="Password" required minLength="6" onChange={(e) => setPassword(e.target.value)}/>
+        <input type="password" placeholder="Confirm Password" required minLength="6"onChange={(e) => setConfirm(e.target.value)}/>
         <button type="submit">Sign Up</button>
       </form>
       <div className="login-link">

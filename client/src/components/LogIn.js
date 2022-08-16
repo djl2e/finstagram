@@ -20,10 +20,9 @@ function LogIn(props) {
         username, password,
       })
       .then((res) => {
-        props.setIsLoggedIn(true);
-        props.setUser(res.data.user);
         localStorage.setItem('token', JSON.stringify(res.data.token));
-        navigate('/home');
+        props.setIsLoggedIn(true);
+        navigate('/');
       })
       .catch((err) => {
         setError(err.response.data.message);
@@ -31,17 +30,17 @@ function LogIn(props) {
   }
 
   return (
-    <div className="login-page" hidden={props.isLoggedIn}>
+    <div className="login-page">
       <p className="login-error" hidden={(location.state || error) ? false : true}>{location.state ? location.state.signup.message : error}</p>
       <p className="login-error" hidden={(!location.state && error) ? false : true}>
         If you have an account please try again. If not, please sign up for a new account.
       </p>
       <form action="/auth/login" className="login-form" onSubmit={submitForm}>
-        <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)}/>
-        <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} minLength="6"/>
+        <input type="text" placeholder="Username" required onChange={(e) => setUsername(e.target.value)}/>
+        <input type="password" placeholder="Password" required onChange={(e) => setPassword(e.target.value)} minLength="6"/>
         <button type="submit">Log In</button>
       </form>
-      <div className="singup-link">
+      <div className="signup-link">
         <p>Don't have an account?</p>
         <Link to="../auth/signup">Sign Up</Link>
       </div>
