@@ -5,8 +5,10 @@ import axios from 'axios';
 import time from '../time';
 import MiniView from './MiniView';
 import Like from './Like';
+import Comment from './Comment';
 
-function Post() {
+
+function Post(props) {
   const [post, setPost] = useState(undefined);
   const [imgSrc, setImgSrc] = useState('');
   const [date, setDate] = useState('');
@@ -14,6 +16,7 @@ function Post() {
   const [likes, setLikes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const id = useParams().id;
+  const { mainUser } = props;
 
   useEffect(() => {
     const config = {
@@ -38,19 +41,38 @@ function Post() {
 
   if (isLoading) {
     return null;
-  } 
+  }
 
   return (
     <div className="post-page">
       <img src={imgSrc} alt="post main" />
       <div className="post-info">
         <div className="post-header">
-          <MiniView user={post.user} date={date} content={post.caption}/>
+          <MiniView 
+            user={post.user} 
+            date={date} 
+            content={post.caption}
+            type="post"
+            mainUserId={mainUser._id}
+            postId={id}
+            commentId={""}
+          />
         </div>
         <div className="post-comments">
-          {comments.map((comment) => <MiniView user={comment.user} date={time(comment.date)} content={comment.content}/>)}
+          {comments.map((comment) => 
+            <MiniView 
+              user={comment.user} 
+              date={time(comment.date)} 
+              content={comment.content}
+              type="comment"
+              mainUserId={mainUser._id}
+              postId={id}
+              commentId={comment._id}
+              key={"profile" + id + "comment" + comment._id}
+            />)}
         </div>
-        <Like likes={likes} />
+        <Like likes={likes} user={mainUser} id={id}/>
+        <Comment id={id}/>
       </div>
     </div>
   )
