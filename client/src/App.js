@@ -50,13 +50,16 @@ function App() {
     }
   }, [isLoggedIn]);
 
+  if (isLoading) return;
+  
+
   return (
     <div className="App">
-      {!isLoggedIn ? null : (isLoading ? null : <Header user={user} setUser={setUser} setIsLoggedIn={setIsLoggedIn}/>)}
+      {!isLoggedIn ? null : <Header user={user} setUser={setUser} setIsLoggedIn={setIsLoggedIn}/>}
       <Routes>
         <Route exact path="/auth/login" element= {<LogIn setIsLoggedIn={setIsLoggedIn} />} />
         <Route exact path="/auth/signup" element={<SignUp />} />
-        <Route path="/" element={<ProtectedRoute key={isLoggedIn} isLoading={isLoading} isLoggedIn={isLoggedIn}/>}>
+        <Route path="/" element={<ProtectedRoute key={isLoggedIn} isLoggedIn={isLoggedIn}/>}>
           <Route exact path="/" element={<Home />} />
           <Route exact path="/posts/create" element={<PostForm />} />
           <Route exact path="/users/:id" element={<UserProfile user={user}/>} /> 
@@ -64,7 +67,7 @@ function App() {
           <Route exact path="/users/password" element={<ChangePassword user={user} />} /> 
           <Route exact path="/users/image" element={<ChangeProfilePic user={user} />} /> 
           <Route exact path="/users/delete" element={<RemoveUser user={user} setUser={setUser} setIsLoggedIn={setIsLoggedIn}/>}/>
-          <Route exact path='/posts/:id' element={<Post />} />
+          <Route exact path='/posts/:id' element={<Post mainUser={user}/>} />
         </Route>
       </Routes>
     </div>
