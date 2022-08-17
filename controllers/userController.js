@@ -64,6 +64,25 @@ exports.user = (req, res, next) => {
     });
 };
 
+// get mini user info (NOT including user following, followers, post)
+exports.mini_user = (req, res, next) => {
+  User.findById(req.params.id)
+    .exec((err, user) => {
+      if (err) res.json(err);
+
+      if (user === null) {
+        return res.status(404).json({
+          message: 'User not found',
+          user,
+        });
+      }
+
+      res.json({
+        user,
+      });
+    });
+};
+
 // get current user id
 exports.profile = (req, res, next) => {
   req.params.id = req.user._id;

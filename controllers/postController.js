@@ -4,6 +4,19 @@ const Post = require('../models/post');
 const Like = require('../models/like');
 const s3Image = require('../aws-image/s3-image');
 
+// list of posts for home page
+exports.home = (req, res, next) => {
+  const date = new Date();
+  date.setDate(date.getDate() - 3);
+  Post.find({ date: { $gt: date } })
+    .sort({ username: -1 })
+    .limit(20)
+    .exec((err, posts) => {
+      if (err) return res.json(err);
+      res.json(posts);
+    });
+};
+
 // create new post - user from token, caption and image from form
 exports.create_post = [
   upload.single('form-image'),
@@ -112,7 +125,7 @@ exports.like = (req, res, next) => {
           }
           like.save((err) => {
             if (err) return res.json(err);
-            res.json('Post liked');
+            res.json(like);
           });
         });
     });
@@ -129,9 +142,9 @@ exports.unlike = (req, res, next) => {
         });
       }
       Like.findOneAndRemove({ post: post._id, likedBy: req.user._id })
-        .exec((err) => {
+        .exec((err, like) => {
           if (err) return res.json(err);
-          res.json('Post unliked');
+          res.json(like);
         });
     });
 };

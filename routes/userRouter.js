@@ -25,6 +25,9 @@ router.post('/delete', userController.delete_post);
 // GET another user
 router.get('/:id', userController.user);
 
+// GET mini user
+router.get('/:id/mini', userController.mini_user);
+
 // POST follow
 router.post('/follow/:otherid', userController.follow_post);
 

@@ -22,6 +22,7 @@ function App() {
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem('token'));
+    console.log(token);
     if (token != null) {
       const decoded = jwt_decode(token);
       const date = new Date();
@@ -67,7 +68,7 @@ function App() {
           <Route exact path="/users/password" element={<ChangePassword user={user} />} /> 
           <Route exact path="/users/image" element={<ChangeProfilePic user={user} />} /> 
           <Route exact path="/users/delete" element={<RemoveUser user={user} setUser={setUser} setIsLoggedIn={setIsLoggedIn}/>}/>
-          <Route exact path='/posts/:id' element={<Post mainUser={user}/>} />
+          <Route exact path='/posts/:id' element={<Post mainUser={user}/>} />        
         </Route>
       </Routes>
     </div>

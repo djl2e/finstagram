@@ -4,6 +4,9 @@ const router = express.Router();
 
 const postController = require('../controllers/postController');
 
+// GET home posts
+router.get('/home', postController.home);
+
 // POST create
 router.post('/create', postController.create_post);
 
