@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 import time from '../time';
-import MiniView from './MiniView';
+import PostView from './PostView';
 import Like from './Like';
 import Comment from './Comment';
 
@@ -48,7 +48,7 @@ function Post(props) {
       <img src={imgSrc} alt="post main" />
       <div className="post-info">
         <div className="post-header">
-          <MiniView 
+          <PostView 
             user={post.user} 
             date={date} 
             content={post.caption}
@@ -60,7 +60,7 @@ function Post(props) {
         </div>
         <div className="post-comments">
           {comments.map((comment) => 
-            <MiniView 
+            <PostView 
               user={comment.user} 
               date={time(comment.date)} 
               content={comment.content}

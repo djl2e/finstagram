@@ -22,7 +22,6 @@ function App() {
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem('token'));
-    console.log(token);
     if (token != null) {
       const decoded = jwt_decode(token);
       const date = new Date();
@@ -53,7 +52,6 @@ function App() {
 
   if (isLoading) return;
   
-
   return (
     <div className="App">
       {!isLoggedIn ? null : <Header user={user} setUser={setUser} setIsLoggedIn={setIsLoggedIn}/>}
@@ -61,7 +59,7 @@ function App() {
         <Route exact path="/auth/login" element= {<LogIn setIsLoggedIn={setIsLoggedIn} />} />
         <Route exact path="/auth/signup" element={<SignUp />} />
         <Route path="/" element={<ProtectedRoute key={isLoggedIn} isLoggedIn={isLoggedIn}/>}>
-          <Route exact path="/" element={<Home />} />
+          <Route exact path="/" element={<Home user={user}/>} />
           <Route exact path="/posts/create" element={<PostForm />} />
           <Route exact path="/users/:id" element={<UserProfile user={user}/>} /> 
           <Route exact path="/users/update" element={<EditProfile user={user} />} /> 
