@@ -11,6 +11,8 @@ exports.home = (req, res, next) => {
   Post.find({ date: { $gt: date } })
     .sort({ username: -1 })
     .limit(20)
+    .populate('user')
+    .populate('likes')
     .exec((err, posts) => {
       if (err) return res.json(err);
       res.json(posts);

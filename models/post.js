@@ -11,10 +11,13 @@ const PostSchema = new Schema(
     image: { type: String, required: true },
     date: { type: Date, required: true },
   },
+  {
+    toJSON: { virtuals: true },
+  },
 );
 
 PostSchema
-  .pre('findOneAndRemove', async function (next) {
+  .pre('findOneAndRemove', function (next) {
     const id = this._conditions._id;
     Promise.all([
       Comment.deleteMany({ post: id }),
