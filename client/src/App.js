@@ -14,6 +14,7 @@ import RemoveUser from './components/RemoveUser';
 import Post from './components/Post';
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
+import './style/App.css';
 
 function App() {  
   const [isLoading, setIsLoading] = useState(true);

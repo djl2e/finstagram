@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap');
+
+input {
+  height: 18px;
+  font-weight: bold;
+}
+
+button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--green);
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  border: none;
+  border-radius: 2px;
+  height: 30px;
+
+}
+
+.login-container, .signup-container {
+  padding-top: 0px;
+  box-sizing: border-box;
+  width: 100vw;
+  min-height: 100vh;
+}
+
+.login-container, .login-page, .login-form, .signup-container, .signup-page, .signup-form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.login-container, .login-page, .signup-container, .signup-page {
+  align-items: center;
+}
+
+.login-container, .signup-container {
+  gap: 30px;
+}
+
+.login-page, .signup-link, .signup-page, .login-link {
+  background-color: white;
+  border: var(--border) 1px solid;
+}
+
+.login-page, .signup-page {
+  min-height: 350px;
+  width: 350px;
+  gap: 15px;
+  padding: 50px 0;
+}
+
+#login-header, #signup-header {
+  font-family: 'Shadows Into Light', cursive;
+  font-size: 45px;
+}
+
+.login-form, .signup-form {
+  width: 220px;
+  gap: 8px;
+}
+
+.login-form button, .signup-form button {
+  margin-top: 15px;
+}
+
+.signup-link, .login-link {
+  height: 50px;
+  width: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.signup-link, .login-link {
+  font-size: 14px;
+}
+
+.signup-link a, .login-link a {
+  text-decoration: none;
+  color: var(--green);
+}
+
+.error-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  color: rgba(213, 113, 113);
+  font-size: 14px;
+  width: 250px;
+}
+
+#signup-title {
+  font-size: 14px;
+  color: rgba(150, 150, 150);
+}
