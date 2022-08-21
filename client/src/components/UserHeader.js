@@ -6,7 +6,9 @@ function UserHeader(props) {
   const imgSrc = `https://finstagram-images.s3.us-east-1.amazonaws.com/${user.image}`;
   return (
     <div className="user-header">
-      <img src={imgSrc} alt="user" id="user-pic"/>
+      <div id="user-pic-cropper">
+        <img src={imgSrc} alt="user" id="user-pic"/>
+      </div>
       <div className="user-info">
         <div className="user-top">
           <p>{user.username}</p>
@@ -18,7 +20,7 @@ function UserHeader(props) {
           <p>{following.length} following</p>
         </div>
         <div className="user-bottom">
-          <p>{user.name}</p>
+          <p id="user-fullname">{user.name}</p>
           <p>{user.description}</p>
         </div>
       </div>

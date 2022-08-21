@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import '../style/PostInfo.css';
+import '../style/Account.css';
 
 function ChangePassword(props) {
   const [password, setPassword] = useState('');
@@ -30,32 +32,39 @@ function ChangePassword(props) {
   }
 
   return (
-    <form className="password-form" onSubmit={submitForm}>
-      <p className="signup-error" hidden={error ? false : true}>{error}</p>
-      <p className="signup-error" hidden={error ? false : true}>Please try again.</p>
-      <label htmlFor="change-password">Password</label>
-      <input 
-        name="change-password"
-        id="change-password"
-        type="password" 
-        placeholder="Enter New Password"
-        minLength="6" 
-        required 
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <label htmlFor="confirm-new-password">Confirm Password</label>
-      <input 
-        name="confirm-new-password"
-        id="confirm-new-password"
-        type="password" 
-        placeholder="Confirm Password" 
-        minLength="6" 
-        required 
-        onChange={(e) => setConfirm(e.target.value)}
-      />
-      <button type="submit">Update Info</button>
-      <Link to={`/users/${props.user._id}`}>Back to Profile</Link>
-    </form>
+    <div className="password-page main">
+      <form className="password-form" onSubmit={submitForm}>
+      <div className="error-container">
+          <p className="error-message" hidden={error ? false : true}>{error} Please try again.</p>
+        </div>
+        <div className="change-password-container">
+          <label htmlFor="change-password">Password:</label>
+          <input 
+            name="change-password"
+            id="change-password"
+            type="password" 
+            placeholder="Enter New Password"
+            minLength="6" 
+            required 
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <div className="confirm-new-password-container">
+          <label htmlFor="confirm-new-password">Confirm Password:</label>
+          <input 
+            name="confirm-new-password"
+            id="confirm-new-password"
+            type="password" 
+            placeholder="Confirm Password" 
+            minLength="6" 
+            required 
+            onChange={(e) => setConfirm(e.target.value)}
+          />
+        </div>
+        <button type="submit">Update Info</button>
+        <Link to={`/users/${props.user._id}`}>Back to Profile</Link>
+      </form>
+    </div>
   )
 }
 

@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import UserHeader from './UserHeader';
 import UserPost from './UserPost';
+import '../style/User.css';
 
 function UserProfile(props) {
   const[isLoading, setIsLoading] = useState(true);
@@ -38,7 +39,7 @@ function UserProfile(props) {
   }
   
   return (
-    <div className="profile-page">
+    <div className="profile-page main">
       <UserHeader 
         user={user}
         following={following}

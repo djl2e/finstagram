@@ -26,11 +26,13 @@ function RemoveUser(props) {
   }
 
   return (
-    <form className="remove-user-form" onSubmit={submitDelete}>
-      <p>Delete User: {props.user.username}?</p>
-      <button type="submit">Yes, Delete</button>
-      <Link to={`/users/${props.user._id}`}>No, Return Back to Profile</Link>
-    </form>
+    <div className="remove-user-page main">
+      <form className="remove-user-form" onSubmit={submitDelete}>
+        <p>Delete User: {props.user.username}?</p>
+        <button type="submit">Yes, Delete</button>
+        <Link to={`/users/${props.user._id}`}>No, Return Back to Profile</Link>
+      </form>
+    </div>
   )
 }
 

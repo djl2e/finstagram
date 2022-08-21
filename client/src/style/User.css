@@ -1,0 +1,85 @@
+.user-header {
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 80px;
+  margin: 0 350px;
+  border-bottom: 1px solid var(--border);
+}
+
+#user-pic-cropper {
+  width: 150px;
+  height: 150px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+#user-pic {
+  object-fit: cover;
+  display: inline;
+  margin: 0 auto;
+  height: 100%;
+  width: 100%;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.user-top {
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+}
+
+.user-top p {
+  font-size: 25px;
+}
+
+.user-top a {
+  text-decoration: None;
+  color: black;
+  border: solid 1px var(--border);
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.user-stats {
+  display: flex;
+  gap: 20px;
+}
+
+.user-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#user-fullname {
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.profile-posts {
+  margin: 50px 300px;
+  display: grid;
+  justify-content: space-between;
+  align-content: center;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.profile-posts img {
+  object-fit: none; 
+  object-position: center;
+  height: 300px;
+  width: 300px;
+}
+
+.profile-posts a:hover {
+  transition: 0.4s all;
+  opacity: 0.7;
+}

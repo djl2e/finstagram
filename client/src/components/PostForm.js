@@ -1,12 +1,14 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../style/PostInfo.css';
 
 function PostForm() {
   const [image, setImage] = useState(null);
   const [caption, setCaption] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const imgSrc = 'https://finstagram-images.s3.us-east-1.amazonaws.com/';
 
   function submitForm(e) {
     e.preventDefault();
@@ -32,13 +34,21 @@ function PostForm() {
   }
 
   return (
-    <form action="/posts/create" className="new-post-form" onSubmit={submitForm}>
-      <p className="error-message" hidden={error ? false : true}>{error}</p>
-      <p className="error-message" hidden={error ? false : true}>Please try again.</p>
-      <input type="file" accept="image/*" onChange={(e) => setImage(e.target.files[0])} required/>
-      <input type="text" placeholder="Caption" onChange={(e) => setCaption(e.target.value)}/>
-      <button type="submit">Create Post</button>
-    </form>
+    <div className="new-post-page main">
+      <form action="/posts/create" className="new-post-form" onSubmit={submitForm}>
+        <img id="image-gallery" src={imgSrc + 'image-gallery.png'} alt="new post" />
+        <p id="image-gallery-caption">Upload photos here!</p>
+        <label for="img-upload" className="img-upload-container">
+          Select from computer
+        </label> 
+        <input type="file" accept="image/*" id="img-upload" onChange={(e) => setImage(e.target.files[0])} required/>
+        <div className="error-container">
+          <p className="error-message" hidden={error ? false : true}>{error} Please try again.</p>
+        </div>
+        <textarea rows="4" cols="40" placeholder="Add caption" onChange={(e) => setCaption(e.target.value)}/>
+        <button type="submit">Create Post</button>
+      </form>
+    </div>
   )
 
 }

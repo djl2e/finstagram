@@ -4,13 +4,19 @@ import axios from 'axios';
 function Like(props) {
   const { user, id } = props;
 
+  const [hasLiked, setHasLiked] = useState(false);
+  const [likes, setLikes] = useState(props.likes);
+
+  if (user == null) return;
+  
   // initial state of hasLiked, whether user has previously liked the post or not
   const exists = props.likes.some((like) => {
     return like.likedBy === user._id;
   })
 
-  const [hasLiked, setHasLiked] = useState(exists);
-  const [likes, setLikes] = useState(props.likes);
+  if (exists !== hasLiked) {
+    setHasLiked(exists);
+  }
 
   const emptySrc = `https://finstagram-images.s3.us-east-1.amazonaws.com/heart.png`;
   const fullSrc = `https://finstagram-images.s3.us-east-1.amazonaws.com/heart_clicked.png`;

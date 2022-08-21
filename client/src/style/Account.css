@@ -1,0 +1,46 @@
+.user-update-form, .remove-user-form {
+  gap: 15px;
+  margin-top: 100px;
+}
+
+.user-update-form a, 
+.profile-pic-form a, 
+.password-form a,
+.remove-user-form a {
+  text-decoration: none;
+  color: var(--orange);
+  font-weight: bold;
+}
+
+.new-name-container, 
+.new-description-container,
+.change-password-container,
+.confirm-new-password-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.user-update-form button, 
+.password-page button, 
+.remove-user-page button {
+  margin-top: 20px;
+}
+
+.user-update-form button, 
+.profile-pic-form button,
+.password-page button,
+.remove-user-form button {
+  padding: 18px 15px;
+  border-radius: 8px;
+}
+
+.password-form {
+  margin-top: 150px;
+  gap: 15px;
+}
+
+.remove-user-form p {
+  font-weight: bold;
+  font-size: 20px;
+}

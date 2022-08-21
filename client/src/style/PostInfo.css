@@ -1,0 +1,80 @@
+.new-post-page, 
+.user-update-page, 
+.profile-pic-page, 
+.password-page,
+.remove-user-page {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.new-post-form,
+.user-update-form, 
+.profile-pic-form, 
+.password-form,
+.remove-user-form {
+  margin-top: 50px;
+  padding: 50px 100px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.new-post-form, .profile-pic-form{
+  gap: 25px;
+}
+
+#image-gallery {
+  height: 100px;
+  width: auto;
+}
+
+#image-gallery-caption {
+  font-size: 20px;
+}
+
+.img-upload-container, .profile-pic-input-container {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  border-radius: 5px;
+}
+
+.img-upload-container:hover, .profile-pic-input-container:hover {
+  filter: brightness(60%);
+  cursor: pointer;
+  transition: 0.5s all;
+}
+
+#img-upload, #profile-pic-input {
+  display: none;
+}
+
+.new-post-page button {
+  padding: 20px 20px;
+  border-radius: 8px;
+}
+
+.new-post-page button:hover, 
+.user-update-page button:hover, 
+.profile-pic-form button:hover,
+.password-page button:hover,
+.remove-user-page button:hover {
+  transition: 0.4s all;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.error-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  color: rgba(213, 113, 113);
+  font-size: 14px;
+  width: 250px;
+}
