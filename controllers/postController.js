@@ -6,9 +6,7 @@ const s3Image = require('../aws-image/s3-image');
 
 // list of posts for home page
 exports.home = (req, res, next) => {
-  const date = new Date();
-  date.setDate(date.getDate() - 3);
-  Post.find({ date: { $gt: date } })
+  Post.find()
     .sort({ username: -1 })
     .limit(20)
     .populate('user')
