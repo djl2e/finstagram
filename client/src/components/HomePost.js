@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import MiniView from './MiniView';
 import Like from './Like';
 import Comment from './Comment';
 import time from '../time';
+
 
 function HomePost(props) {
   const { post, mainUser } = props;
@@ -15,7 +16,9 @@ function HomePost(props) {
   return (
     <div className="home-post">
       <MiniView user={user} imgSrc={userImgSrc} date={postDate} />
-      <img src={postImgSrc} alt="home post" />
+      <div className="home-img-container">
+        <img className="home-img" src={postImgSrc} alt="home post" />
+      </div>
       <Like likes={post.likes} user={mainUser} id={post._id} />
       <Comment id={post._id}/>
     </div>

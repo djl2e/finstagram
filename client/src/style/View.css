@@ -1,0 +1,81 @@
+.post-view, .content, .post-options {
+  display: flex;
+  align-items: center;
+}
+
+.post-view {
+  box-sizing: border-box;
+  padding: 0 20px;
+  width: 100%;
+  justify-content: space-between; 
+}
+
+.post-header .post-view {
+  height: 100%;
+}
+
+.content {
+  gap: 20px;
+}
+
+.content-text {
+  font-size: 15px;
+}
+
+.post-header .content-text {
+  font-weight: bold;
+}
+
+.post-view button, .cancel-edit-caption {
+  background-color: inherit;
+  color: var(--orange);
+  cursor: pointer;
+}
+
+.cancel-edit-caption {
+  border: none;
+  font-size: 15px;
+}
+
+.mini-view {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.mini-view a {
+  text-decoration: none;
+  color: black;
+}
+
+.user-mini-cropper {
+  width: 35px;
+  height: 35px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.user-mini-img {
+  object-fit: cover;
+  display: inline;
+  margin: 0 auto;
+  height: 100%;
+  width: 100%;
+}
+
+.mini-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.mini-username {
+  font-size: 14px;
+}
+
+.mini-date {
+  color: rgba(150, 150, 150);
+  font-size: 12px;
+}
+

@@ -1,0 +1,10 @@
+.home-img-container {
+  background: black;
+}
+
+.home-img-container img {
+  max-width: 700px;
+  max-height: 650px;
+  width: auto;
+  height: auto;
+}

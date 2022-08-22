@@ -1,23 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
+import '../style/Exp.css';
 
 function Like(props) {
   const { user, id } = props;
 
-  const [hasLiked, setHasLiked] = useState(false);
+    // initial state of hasLiked, whether user has previously liked the post or not
+  const [hasLiked, setHasLiked] = useState(props.likes.some((like) => {
+    return like.likedBy === user._id;
+  }));
   const [likes, setLikes] = useState(props.likes);
 
   if (user == null) return;
   
-  // initial state of hasLiked, whether user has previously liked the post or not
-  const exists = props.likes.some((like) => {
-    return like.likedBy === user._id;
-  })
-
-  if (exists !== hasLiked) {
-    setHasLiked(exists);
-  }
-
   const emptySrc = `https://finstagram-images.s3.us-east-1.amazonaws.com/heart.png`;
   const fullSrc = `https://finstagram-images.s3.us-east-1.amazonaws.com/heart_clicked.png`;
 

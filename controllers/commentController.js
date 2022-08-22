@@ -25,7 +25,7 @@ exports.create_post = [
       });
       comment.save((err, newComment) => {
         if (err) return res.json(err);
-        res.json(newComment._id);
+        res.json(newComment);
       });
     });
   },

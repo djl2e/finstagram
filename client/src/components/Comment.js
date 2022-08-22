@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios'
+import '../style/Exp.css';
 
 function Comment(props) {
-  const { id } = props;
+  const { id, comments, setComments } = props;
   const [value, setValue] = useState('');
 
   function onSubmit(e) {
@@ -19,7 +20,10 @@ function Comment(props) {
       .post(`/posts/${id}/comments/create`, body, config)
       .then((res) => {
         setValue('');
-        window.location.reload(false);
+        const newComment = res.data;
+        newComment.post = newComment.post._id;
+        newComment.user = newComment.user._id;
+        setComments([...comments, newComment]);
       })
       .catch((err) => {
         console.log(err);

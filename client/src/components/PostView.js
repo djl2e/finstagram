@@ -3,6 +3,7 @@ import axios from 'axios';
 import MiniView from './MiniView';
 import EditPost from './EditPost';
 import RemovePost from './RemovePost';
+import '../style/View.css';
 
 function PostView(props) {
   const [isLoading, setIsLoading] = useState(true);
@@ -10,7 +11,18 @@ function PostView(props) {
   const [editing, setEditing] = useState(false);
   const [editMode, setEditMode] = useState('edit');
 
-  const { date, content, type, mainUserId, postId, commentId } = props;
+  const { 
+    date, 
+    content, 
+    type, 
+    mainUserId, 
+    postId,
+    post,
+    setPost, 
+    commentId, 
+    comments, 
+    setComments 
+  } = props;
 
   // if type is comment, user comes in as a id, this helps populate user field
   if (typeof user == 'string') {
@@ -55,7 +67,9 @@ function PostView(props) {
     axios
       .post(`/posts/${postId}/comments/${commentId}/delete`, {}, config)
       .then((res) => {
-        window.location.reload(false);
+        setComments(comments.filter((comment) => {
+          return comment._id !== commentId;
+        }));
       })
       .catch((err) => {
         console.log(err);
@@ -74,15 +88,17 @@ function PostView(props) {
 
   return (
     <div className="post-view">
-      <MiniView user={user} imgSrc={imgSrc} date={date} />
-      { !editing ?
       <div className="content">
-        <p className="mini-content">{content}</p>
+        <MiniView user={user} imgSrc={imgSrc} date={date} />
+        <div className="content-text">{content}</div>
+      </div>
+      { !editing ?
+      <div className="post-buttons">
         {user._id === mainUserId ? deleteButton : null}
       </div>
       :
       editMode === 'edit' ?
-      <EditPost postId={postId} setEditing={setEditing}/>
+      <EditPost postId={postId} setEditing={setEditing} post={post} setPost={setPost}/>
       :
       <RemovePost postId={postId} mainUserId={mainUserId} setEditing={setEditing}/>
       }

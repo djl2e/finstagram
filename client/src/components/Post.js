@@ -6,6 +6,7 @@ import time from '../time';
 import PostView from './PostView';
 import Like from './Like';
 import Comment from './Comment';
+import '../style/Post.css';
 
 
 function Post(props) {
@@ -39,40 +40,50 @@ function Post(props) {
       })
   }, [id])
 
-  if (isLoading) {
+  if (isLoading || mainUser == null) {
     return null;
   }
 
   return (
     <div className="post-page">
-      <img src={imgSrc} alt="post main" />
-      <div className="post-info">
-        <div className="post-header">
-          <PostView 
-            user={post.user} 
-            date={date} 
-            content={post.caption}
-            type="post"
-            mainUserId={mainUser._id}
-            postId={id}
-            commentId={""}
-          />
+      <div className="post-material">
+        <div className="post-img-container">
+          <img src={imgSrc} alt="post main" />
         </div>
-        <div className="post-comments">
-          {comments.map((comment) => 
+        <div className="post-info">
+          <div className="post-header">
             <PostView 
-              user={comment.user} 
-              date={time(comment.date)} 
-              content={comment.content}
-              type="comment"
+              user={post.user} 
+              date={date} 
+              content={post.caption}
+              type="post"
               mainUserId={mainUser._id}
               postId={id}
-              commentId={comment._id}
-              key={"profile" + id + "comment" + comment._id}
-            />)}
+              commentId={""}
+              post={post}
+              setPost={setPost}
+            />
+          </div>
+          <div className="post-comments">
+            {comments.map((comment) => 
+              <PostView 
+                user={comment.user} 
+                date={time(comment.date)} 
+                content={comment.content}
+                type="comment"
+                mainUserId={mainUser._id}
+                postId={id}
+                commentId={comment._id}
+                key={"profile" + id + "comment" + comment._id}
+                comments={comments}
+                setComments={setComments}
+              />)}
+          </div>
+          <div className="post-action">
+            <Like likes={likes} user={mainUser} id={id}/>
+            <Comment id={id} comments={comments} setComments={setComments}/>
+          </div>
         </div>
-        <Like likes={likes} user={mainUser} id={id}/>
-        <Comment id={id}/>
       </div>
     </div>
   )

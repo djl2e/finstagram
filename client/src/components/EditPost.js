@@ -5,7 +5,7 @@ function EditPost(props) {
   const [newCaption, setNewCaption] = useState(props.content);
   const [error, setError] = useState('');
 
-  const { postId } = props;
+  const { postId, post, setPost, setEditing } = props;
 
   function editCaption(e) {
     e.preventDefault();
@@ -20,7 +20,10 @@ function EditPost(props) {
     axios
       .post(`/posts/${postId}/update`, body, config)
       .then((res) => {
-        window.location.reload(false);
+        const newPost = {...post}
+        newPost.caption = newCaption;
+        setPost(newPost);
+        setEditing(false);
       })
       .catch((err) => {
         setError(err.response.data.message);
@@ -31,20 +34,22 @@ function EditPost(props) {
     <form className="edit-content" onSubmit={editCaption}>
       <p className="error-message" hidden={error ? false : true}>{error}</p>
       <p className="error-message" hidden={error ? false : true}>Please try again.</p>
-      <input 
-        type="text" 
+      <textarea 
+        rows="2" cols="20"
         className="edit-caption" 
         required 
         value={newCaption}
         onChange={(e) => setNewCaption(e.target.value)}
       />
-      <button type="submit" className="edit-caption-button">Edit</button>
-      <input 
-        type="button" 
-        className="cancel-edit-caption" 
-        value="Cancel"
-        onClick={(e) => props.setEditing(false)}
-      />
+      <div className="edit-content-buttons">
+        <button type="submit" className="edit-caption-button">Edit</button>
+        <input 
+          type="button" 
+          className="cancel-edit-caption" 
+          value="Cancel"
+          onClick={(e) => setEditing(false)}
+        />
+      </div>
     </form>
   )
 }

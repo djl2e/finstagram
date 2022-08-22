@@ -63,7 +63,7 @@ exports.update_post = [
     const update = { caption: req.body['form-caption'] };
     Post.findByIdAndUpdate(req.params.id, update, {}, (err, updatedPost) => {
       if (err) res.json(err);
-      res.json(updatedPost._id);
+      res.json(updatedPost);
     });
   },
 ];
