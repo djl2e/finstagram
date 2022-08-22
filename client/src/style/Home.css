@@ -1,6 +1,7 @@
 .home-page {
   display: flex;
   justify-content: center;
+  gap: 30px;
 }
 
 .home-posts {
@@ -44,7 +45,25 @@
 
 .view-comments {
   text-decoration: none;
-  color: rgba(150, 150, 150);
+  color: var(--gray);
   font-size: 13px;
   padding: 5px 0 10px 37px;
+}
+
+.home-suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.suggestion-header {
+  font-weight: bold;
+  color: var(--gray);
+}
+
+.suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }

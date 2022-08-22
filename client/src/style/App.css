@@ -6,6 +6,7 @@
   --green: #78d278;
   --orange: rgba(240, 180, 100);
   --header-height: 70px;
+  --gray: rgba(150, 150, 150);
 }
 
 body, #root, .App {

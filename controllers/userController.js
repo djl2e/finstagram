@@ -39,6 +39,22 @@ exports.search = [
   },
 ];
 
+// suggest users to follow
+exports.suggested = (req, res, next) => {
+  User.findById(req.user._id)
+    .populate('following')
+    .exec((err, result) => {
+      if (err) return res.json(err);
+      const blacklist = result.following.map((follow) => follow.followed);
+      blacklist.push(req.user._id);
+      User.aggregate([{ $match: { _id: { $nin: blacklist } } }, { $sample: { size: 5 } }])
+        .exec((err, suggested) => {
+          if (err) res.json(err);
+          res.json(suggested);
+        });
+    });
+};
+
 // get user info (including user following, followers, post)
 exports.user = (req, res, next) => {
   User.findById(req.params.id)

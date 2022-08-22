@@ -14,7 +14,9 @@ function MiniView(props) {
         <Link to={`/users/${user._id}`}>
           <p className="mini-username">{user.username}</p>
         </Link>
+        { date ?
         <p className="mini-date">{date}</p>
+        : null }
       </div>
     </div>
   )

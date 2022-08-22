@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import HomePost from './HomePost';
+import UserSuggestion from './UserSuggestion';
 import axios from 'axios';
 
 function Home(props) {
@@ -33,6 +34,10 @@ function Home(props) {
         {posts.map((post) => 
           <HomePost post={post} mainUser={user} key={`home-post-${post._id}`} />
         )}
+      </div>
+      <div className="home-suggestions">
+        <p className="suggestion-header">Suggestions for you:</p>
+        <UserSuggestion />
       </div>
     </div>
   )

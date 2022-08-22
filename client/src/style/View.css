@@ -19,7 +19,7 @@
 }
 
 .content-text {
-  font-size: 15px;
+  font-size: 13px;
   max-height: 62px;
   max-width: 150px;
   overflow: scroll;
@@ -27,6 +27,7 @@
 
 .post-header .content-text {
   font-weight: bold;
+  font-size: 15px;
 }
 
 .edit-content {
@@ -94,10 +95,11 @@
 
 .mini-username {
   font-size: 14px;
+  font-weight: bold;
 }
 
 .mini-date {
-  color: rgba(150, 150, 150);
+  color: var(--gray);
   font-size: 12px;
 }
 

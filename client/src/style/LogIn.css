@@ -97,5 +97,5 @@ button {
 
 #signup-title {
   font-size: 14px;
-  color: rgba(150, 150, 150);
+  color: var(--gray);
 }

@@ -7,6 +7,9 @@ const userController = require('../controllers/userController');
 // GET search
 router.get('/search', userController.search);
 
+// Get suggested users
+router.get('/suggested', userController.suggested);
+
 // GET profile
 router.get('/profile', userController.profile, userController.user);
 
