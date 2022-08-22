@@ -24,7 +24,7 @@
   align-items: center;
 }
 
-.new-post-form, .profile-pic-form{
+.new-post-form, .profile-pic-form {
   gap: 25px;
 }
 
@@ -66,6 +66,10 @@
   transition: 0.4s all;
   cursor: pointer;
   opacity: 0.7;
+}
+
+.new-post-page textarea {
+  padding: 10px;
 }
 
 .error-container {

@@ -27,14 +27,15 @@ function RemovePost(props) {
 
   return (
     <form className="remove-post-form" onSubmit={submitDelete}>
-      <p>Delete Post?</p>
-      <button type="submit">Delete</button>
-      <input 
-        type="button" 
-        className="cancel-delete-post" 
-        value="Cancel"
-        onClick={(e) => setEditing(false)}
-      />
+      <div className="delete-options">
+        <button type="submit"> Confirm Delete</button>
+        <input 
+          type="button" 
+          className="cancel-delete-post" 
+          value="Cancel"
+          onClick={(e) => setEditing(false)}
+        />
+      </div>
     </form>
   )
 }

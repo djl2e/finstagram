@@ -1,9 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import MiniView from './MiniView';
 import Like from './Like';
 import Comment from './Comment';
 import time from '../time';
-
+import '../style/Home.css';
 
 function HomePost(props) {
   const { post, mainUser } = props;
@@ -20,6 +21,8 @@ function HomePost(props) {
         <img className="home-img" src={postImgSrc} alt="home post" />
       </div>
       <Like likes={post.likes} user={mainUser} id={post._id} />
+      <p className="home-caption">{post.caption}</p>
+      <Link to={`/posts/${post._id}`} className="view-comments">View all comments</Link>
       <Comment id={post._id}/>
     </div>
   )

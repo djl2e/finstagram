@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import axios from 'axios';
 
 function EditPost(props) {
-  const [newCaption, setNewCaption] = useState(props.content);
-  const [error, setError] = useState('');
+  const [newCaption, setNewCaption] = useState(props.post.caption);
 
   const { postId, post, setPost, setEditing } = props;
 
@@ -26,16 +25,14 @@ function EditPost(props) {
         setEditing(false);
       })
       .catch((err) => {
-        setError(err.response.data.message);
+        console.log(err);
       })
   }
 
   return (
     <form className="edit-content" onSubmit={editCaption}>
-      <p className="error-message" hidden={error ? false : true}>{error}</p>
-      <p className="error-message" hidden={error ? false : true}>Please try again.</p>
       <textarea 
-        rows="2" cols="20"
+        rows="2" cols="25"
         className="edit-caption" 
         required 
         value={newCaption}

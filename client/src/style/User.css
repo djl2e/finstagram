@@ -65,7 +65,9 @@
 }
 
 .profile-posts {
-  margin: 50px 300px;
+  width: 1000px;
+  margin: 50px 220px;
+  gap: 25px 0;
   display: grid;
   justify-content: space-between;
   align-content: center;

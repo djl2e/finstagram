@@ -83,14 +83,16 @@ function PostView(props) {
         <button className="delete-post" onClick={(e) => deletePost()}>Delete</button>
       </div> 
       :
-      <button className="delete-comment" onClick={deleteComment}>Delete</button>
+      <button className="delete-comment" onClick={deleteComment}>✖</button>
   )
 
   return (
     <div className="post-view">
       <div className="content">
         <MiniView user={user} imgSrc={imgSrc} date={date} />
+        {!editing ?
         <div className="content-text">{content}</div>
+        : null }
       </div>
       { !editing ?
       <div className="post-buttons">

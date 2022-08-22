@@ -28,7 +28,7 @@ function Home(props) {
   if (isLoading) return;
 
   return (
-    <div className="home-page">
+    <div className="home-page main">
       <div className="home-posts">
         {posts.map((post) => 
           <HomePost post={post} mainUser={user} key={`home-post-${post._id}`} />

@@ -1,10 +1,50 @@
+.home-page {
+  display: flex;
+  justify-content: center;
+}
+
+.home-posts {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.home-post {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+}
+
+.home-post .mini-view {
+  padding: 15px 0 15px 10px;
+}
+
 .home-img-container {
   background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .home-img-container img {
-  max-width: 700px;
-  max-height: 650px;
+  max-width: 470px;
+  max-height: 600px;
   width: auto;
   height: auto;
+}
+
+.home-caption {
+  padding: 5px 0 5px 37px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.view-comments {
+  text-decoration: none;
+  color: rgba(150, 150, 150);
+  font-size: 13px;
+  padding: 5px 0 10px 37px;
 }

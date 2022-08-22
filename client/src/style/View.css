@@ -20,21 +20,43 @@
 
 .content-text {
   font-size: 15px;
+  max-height: 62px;
+  max-width: 150px;
+  overflow: scroll;
 }
 
 .post-header .content-text {
   font-weight: bold;
 }
 
-.post-view button, .cancel-edit-caption {
+.edit-content {
+  display: flex;
+  gap: 10px;
+}
+
+.post-view button, .cancel-edit-caption, .cancel-delete-post {
   background-color: inherit;
   color: var(--orange);
   cursor: pointer;
 }
 
-.cancel-edit-caption {
+.cancel-edit-caption, .cancel-delete-post {
   border: none;
   font-size: 15px;
+}
+
+.remove-post-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.delete-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .mini-view {

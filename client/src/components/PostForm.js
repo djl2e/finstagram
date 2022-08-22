@@ -37,8 +37,10 @@ function PostForm() {
     <div className="new-post-page main">
       <form action="/posts/create" className="new-post-form" onSubmit={submitForm}>
         <img id="image-gallery" src={imgSrc + 'image-gallery.png'} alt="new post" />
-        <p id="image-gallery-caption">Upload photos here!</p>
-        <label for="img-upload" className="img-upload-container">
+        <p id="image-gallery-caption">
+          { image == null ? "Upload photos here!" : "Image selected!" }
+        </p>
+        <label htmlFor="img-upload" className="img-upload-container">
           Select from computer
         </label> 
         <input type="file" accept="image/*" id="img-upload" onChange={(e) => setImage(e.target.files[0])} required/>
