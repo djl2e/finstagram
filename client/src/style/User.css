@@ -48,6 +48,16 @@
   border-radius: 5px;
 }
 
+.unfollow, .follow {
+  background-color: inherit;
+  color: var(--orange);
+  font-size: 16px;
+  cursor: pointer;
+  padding-top: 5px;
+  padding-left: 10px;
+  padding: 5px 10px;
+}
+
 .user-stats {
   display: flex;
   gap: 20px;

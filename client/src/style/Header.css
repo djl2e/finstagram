@@ -28,15 +28,41 @@
 
 #search-bar {
   background-color: rgba(220, 220, 220);
-  height: 30px;
-  width: 200px;
   border: none;
   border-radius: 5px;
+  height: 30px;
   padding: 0 10px;
 }
 
 #search-bar:focus {
   outline: none !important;
+}
+
+.search-results {
+  visibility: hidden;
+  position: fixed;
+  width: 185px;
+  max-height: 250px;
+  margin-top: 25px;
+  left: 40vw;
+  background-color: white;
+  z-index: 200;
+  overflow: scroll;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+}
+
+.search-container:focus-within .search-results {
+  visibility: visible;
+}
+
+.search-results a img {
+  height: 100%;
+  width: 100%;
+}
+
+.header .mini-view {
+  padding: 15px 0 15px 20px;
 }
 
 .header img {

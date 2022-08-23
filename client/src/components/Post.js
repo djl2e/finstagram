@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import time from '../time';
@@ -18,6 +18,7 @@ function Post(props) {
   const [isLoading, setIsLoading] = useState(true);
   const id = useParams().id;
   const { mainUser } = props;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const config = {
@@ -45,7 +46,7 @@ function Post(props) {
   }
 
   return (
-    <div className="post-page">
+    <div className="post-page" onClick={(e) => navigate(-1)}>
       <div className="post-material">
         <div className="post-img-container">
           <img src={imgSrc} alt="post main" />

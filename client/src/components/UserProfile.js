@@ -48,7 +48,7 @@ function UserProfile(props) {
         mainUser={mainUser}
       />
       <div className="profile-posts">
-        {posts.map((post) => <UserPost post={post} key={"profile" + post._id}/>)}
+        {posts.map((post) => <UserPost post={post} origin="post" key={"profile" + post._id}/>)}
       </div> 
     </div>
   );

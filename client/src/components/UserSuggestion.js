@@ -29,7 +29,7 @@ function UserSuggestion() {
   return (
     <div className="suggestions">
       {suggested.map((user) => 
-        <MiniView user={user} imgSrc={imgSrc + user.image} />
+        <MiniView user={user} imgSrc={imgSrc + user.image} key={`suggestion-${user._id}`}/>
       )}
     </div>
   )

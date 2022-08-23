@@ -12,32 +12,30 @@ dotenv.config();
 // search for another user
 // username that starts with keyword gets precedence
 // next is username that contains the keyword
-exports.search = [
-  body('search').trim().escape(),
-  (req, res, next) => {
-    const { search } = req.body;
-    const { username } = req.user;
-    User.find({ username: new RegExp(`^${search}`, 'i') })
-      .sort({ username: 1 })
-      .limit(20)
-      .exec((err, initialSearch) => {
-        if (err) res.json(err);
-        if (initialSearch.length === 20) {
-          res.json(initialSearch);
-        }
-        const remainingLength = 20 - initialSearch.length;
-        User.find({ username: new RegExp(`.+${search}`, 'i') })
-          .sort({ username: 1 })
-          .limit(remainingLength)
-          .exec((err, remainingSearch) => {
-            if (err) res.json(err);
-            const finalSearch = initialSearch.concat(...remainingSearch)
-              .filter((user) => user.username !== username);
-            res.json(finalSearch);
-          });
-      });
-  },
-];
+exports.search = (req, res, next) => {
+  const { search } = req.query;
+  const { username } = req.user;
+  User.find({ username: new RegExp(`^${search}`, 'i') })
+    .sort({ username: 1 })
+    .limit(20)
+    .exec((err, initialSearch) => {
+      if (err) res.json(err);
+      if (initialSearch.length === 20) {
+        res.json(initialSearch);
+      }
+      const remainingLength = 20 - initialSearch.length;
+      const blacklist = initialSearch.map((user) => user._id.toString());
+      User.find({ username: new RegExp(`.+${search}`, 'i'), _id: { $nin: blacklist } })
+        .sort({ username: 1 })
+        .limit(remainingLength)
+        .exec((err, remainingSearch) => {
+          if (err) res.json(err);
+          const finalSearch = initialSearch.concat(...remainingSearch)
+            .filter((user) => user.username !== username);
+          res.json(finalSearch);
+        });
+    });
+};
 
 // suggest users to follow
 exports.suggested = (req, res, next) => {
@@ -215,11 +213,9 @@ exports.follow_post = (req, res, next) => {
         following: id,
         followed: otherid,
       });
-      follow.save((err) => {
+      follow.save((err, success) => {
         if (err) return res.json(err);
-        res.status(200).json({
-          message: 'follow successful',
-        });
+        res.json(success);
       });
     });
 };
@@ -230,11 +226,9 @@ exports.unfollow_post = (req, res, next) => {
   const id = user._id;
   const otherid = mongoose.Types.ObjectId(req.params.otherid);
   Follow.findOneAndRemove({ following: id, followed: otherid })
-    .exec((err) => {
+    .exec((err, success) => {
       if (err) return res.json(err);
-      res.status(200).json({
-        message: 'unfollow successful',
-      });
+      res.json(success);
     });
 };
 
