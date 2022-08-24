@@ -90,7 +90,7 @@ button {
   justify-content: center;
   align-items: center;
   margin-bottom: 10px;
-  color: rgba(213, 113, 113);
+  color: var(--orange) !important;
   font-size: 14px;
   width: 250px;
 }

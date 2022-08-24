@@ -34,7 +34,6 @@ function LogIn(props) {
     <div className="login-container">
       <div className="login-page">
         <h1 id="login-header">Finstagram</h1>
-        <div className=""></div>
         <div className="error-container">
           <p className="error-message" hidden={(location.state || error) ? false : true}>{location.state ? location.state.signup.message : error}</p>
           <p className="error-message" hidden={(!location.state && error) ? false : true}>
