@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import List from './List';
 
 function UserHeader(props) {
   const { user, following, posts, mainUser } = props; 
@@ -8,6 +9,7 @@ function UserHeader(props) {
   const [isFollowing, setIsFollowing] = useState(props.followers.some((follower) => {
     return follower.following === mainUser._id;
   }))
+  const [show, setShow] = useState('');
   const other = useParams().id;
 
   if (user == null) return;
@@ -48,31 +50,42 @@ function UserHeader(props) {
   }
   
   return (
-    <div className="user-header">
-      <div id="user-pic-cropper">
-        <img src={imgSrc} alt="user" id="user-pic"/>
+    <div className="user-header-with-list">
+      <div className="user-header">
+        <div id="user-pic-cropper">
+          <img src={imgSrc} alt="user" id="user-pic"/>
+        </div>
+        <div className="user-info">
+          <div className="user-top">
+            <p>{user.username}</p>
+            {user._id === mainUser._id ? 
+            <Link to="/users/update">Edit Profile</Link> : 
+            isFollowing ?
+            <button className="unfollow" onClick={(e) => onClick(e)}>Unfollow</button>
+            :
+            <button className="follow" onClick={(e) => onClick(e)}>Follow</button>
+            }
+          </div>
+          <div className="user-stats">
+            <p><strong>{posts.length}</strong> posts</p>
+            <button onClick={(e) => setShow('followers')}><p><strong>{followers.length}</strong> followers</p></button> 
+            <button onClick={(e) => setShow('following')}><p><strong>{following.length}</strong> following</p></button> 
+          </div>
+          <div className="user-bottom">
+            <p id="user-fullname">{user.name}</p>
+            <p>{user.description}</p>
+          </div>
+        </div>
       </div>
-      <div className="user-info">
-        <div className="user-top">
-          <p>{user.username}</p>
-          {user._id === mainUser._id ? 
-          <Link to="/users/update">Edit Profile</Link> : 
-          isFollowing ?
-          <button className="unfollow" onClick={(e) => onClick(e)}>Unfollow</button>
-          :
-          <button className="follow" onClick={(e) => onClick(e)}>Follow</button>
-          }
-        </div>
-        <div className="user-stats">
-          <p>{posts.length} posts</p>
-          <p>{followers.length} followers</p>
-          <p>{following.length} following</p>
-        </div>
-        <div className="user-bottom">
-          <p id="user-fullname">{user.name}</p>
-          <p>{user.description}</p>
-        </div>
+      {show === '' ? null :
+      <div className="list-container" onClick={(e) => setShow('')}>
+        {
+          show === 'followers' ?
+          <List list={followers} type="followers"/> :
+          <List list={following} type="following"/>
+        }
       </div>
+      }
     </div>
   )
 }

@@ -29,11 +29,21 @@ exports.search = (req, res, next) => {
         .sort({ username: 1 })
         .limit(remainingLength)
         .exec((err, remainingSearch) => {
-          if (err) res.json(err);
+          if (err) return res.json(err);
           const finalSearch = initialSearch.concat(...remainingSearch)
             .filter((user) => user.username !== username);
           res.json(finalSearch);
         });
+    });
+};
+
+// list of users for followers, following, liked list page
+exports.list = (req, res, next) => {
+  const { ids } = req.query;
+  User.find({ _id: { $in: ids } })
+    .exec((err, list) => {
+      if (err) return res.json(err);
+      res.json(list);
     });
 };
 

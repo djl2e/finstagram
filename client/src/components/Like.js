@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from 'axios';
+import List from './List';
 import '../style/Exp.css';
 
 function Like(props) {
@@ -10,6 +11,7 @@ function Like(props) {
     return like.likedBy === user._id;
   }));
   const [likes, setLikes] = useState(props.likes);
+  const [show, setShow] = useState('');
 
   if (user == null) return;
   
@@ -53,7 +55,14 @@ function Like(props) {
       <button className="like-button" onClick={onClick}>
         <img src={hasLiked ? fullSrc : emptySrc} alt="likes" />
       </button>
-      <p>Liked by {likes.length} {likes.length === 1 ? "user" : "users"}</p>
+      <button className="show-likes" onClick={(e) => setShow('likes')}>
+        <p>Liked by <strong>{likes.length}</strong> {likes.length === 1 ? "user" : "users"}</p>
+      </button>
+      { show === '' ? null :
+      <div className="list-container" onClick={(e) => setShow('')}>
+        <List list={likes} type="likes"/>        
+      </div>
+      }
     </div>
   )
 }

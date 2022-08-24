@@ -41,12 +41,19 @@ function Post(props) {
       })
   }, [id])
 
+  function outsideClick(e) {
+    const container = document.getElementsByClassName('post-material')[0];
+    if (e.target !== container && !container.contains(e.target)) {
+      navigate(-1);  
+    }
+  }
+
   if (isLoading || mainUser == null) {
     return null;
   }
 
   return (
-    <div className="post-page" onClick={(e) => navigate(-1)}>
+    <div className="post-page" onClick={(e) => outsideClick(e)}>
       <div className="post-material">
         <div className="post-img-container">
           <img src={imgSrc} alt="post main" />

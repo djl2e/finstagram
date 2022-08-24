@@ -37,6 +37,8 @@ function UserProfile(props) {
   if (isLoading || mainUser == null) {
     return null;
   }
+
+  console.log(following, followers);
   
   return (
     <div className="profile-page main">

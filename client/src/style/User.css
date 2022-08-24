@@ -60,7 +60,17 @@
 
 .user-stats {
   display: flex;
+  align-items: center;
   gap: 20px;
+}
+
+.user-stats button {
+  font-weight: 400;
+  color: black;
+  background-color: inherit;
+  padding: 0;
+  border: none;
+  cursor: pointer;
 }
 
 .user-bottom {
