@@ -1,3 +1,7 @@
-Image by <a href="https://pixabay.com/users/wanderercreative-855399/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=973460">Stephanie Edwards</a> from <a href="https://pixabay.com//?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=973460">Pixabay</a>
+# Finstagram
 
-https://www.flaticon.com/premium-icon/camera_2977238?term=camera&page=1&position=43&page=1&position=43&related_id=2977238&origin=tag
+[View Here](https://immense-gorge-38469.herokuapp.com/auth/login)
+
+*Image and icon creds*
+- icons from [flaticon](https://www.flaticon.com)
+- [Stephanie Edwards on Pixabay](https://pixabay.com/users/wanderercreative-855399/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=973460)
