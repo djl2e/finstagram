@@ -23,10 +23,13 @@ function UserProfile(props) {
     axios
       .get(`/users/${id}`, config)
       .then((res) => {
+        const postsReceived = res.data.posts;
+        postsReceived.sort((a, b) => (a.date > b.date) ? -1 : 1);
+
         setUser(res.data.user);
         setFollowing(res.data.following);
         setFollowers(res.data.followers);
-        setPosts(res.data.posts);
+        setPosts(postsReceived);
         setIsLoading(false);
       })
       .catch((err) => {

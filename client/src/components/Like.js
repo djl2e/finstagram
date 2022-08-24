@@ -8,7 +8,10 @@ function Like(props) {
 
     // initial state of hasLiked, whether user has previously liked the post or not
   const [hasLiked, setHasLiked] = useState(props.likes.some((like) => {
-    return like.likedBy === user._id;
+    if (user) {
+      return like.likedBy === user._id;
+    }
+    return false;
   }));
   const [likes, setLikes] = useState(props.likes);
   const [show, setShow] = useState('');
