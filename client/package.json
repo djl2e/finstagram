@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.27.2",
     "date-fns": "^2.29.1",
+    "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-quill": "^2.0.0",
@@ -40,8 +41,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://127.0.0.1:3000",
-  "devDependencies": {
-    "jwt-decode": "^3.1.2"
-  }
+  "proxy": "http://127.0.0.1:3000"
 }
