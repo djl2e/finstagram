@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
+import AutoLogin from './components/AutoLogIn';
 import Header from './components/Header';
 import LogIn from './components/LogIn';
 import SignUp from './components/SignUp';
@@ -57,8 +58,10 @@ function App() {
     <div className="App">
       {!isLoggedIn ? null : <Header user={user} setUser={setUser} setIsLoggedIn={setIsLoggedIn}/>}
       <Routes>
-        <Route exact path="/auth/login" element= {<LogIn setIsLoggedIn={setIsLoggedIn} />} />
-        <Route exact path="/auth/signup" element={<SignUp />} />
+        <Route path="/auth" element={<AutoLogin key={isLoggedIn} isLoggedIn={isLoggedIn} />}>
+          <Route exact path="/auth/login" element= {<LogIn setIsLoggedIn={setIsLoggedIn} />} />
+          <Route exact path="/auth/signup" element={<SignUp />} />
+        </Route>
         <Route path="/" element={<ProtectedRoute key={isLoggedIn} isLoggedIn={isLoggedIn}/>}>
           <Route exact path="/" element={<Home user={user}/>} />
           <Route exact path="/posts/create" element={<PostForm />} />
