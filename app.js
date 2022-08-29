@@ -41,4 +41,8 @@ app.use('/users', passport.authenticate('jwt', { session: false }), userRouter);
 app.use('/posts', passport.authenticate('jwt', { session: false }), postRouter);
 app.use('/posts/:post_id/comments', passport.authenticate('jwt', { session: false }), commentRouter);
 
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build', 'index.html'));
+});
+
 module.exports = app;
