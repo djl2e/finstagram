@@ -58,6 +58,7 @@ function Header(props) {
 
   function hideSearch() {
     const searchResults = document.getElementsByClassName('search-results');
+    if (searchResult == null) return;
     searchResults.style.visibility = 'hidden';
   }
 
