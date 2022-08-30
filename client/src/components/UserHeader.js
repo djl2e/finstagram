@@ -24,7 +24,7 @@ function UserHeader(props) {
     }
     if (!isFollowing) {
       axios
-        .post(`/users/follow/${other}`, {}, config)
+        .post(`/api/users/follow/${other}`, {}, config)
         .then((res) => {
           const newFollow = res.data;
           setIsFollowing(true);
@@ -35,7 +35,7 @@ function UserHeader(props) {
         })
     } else {
       axios
-        .post(`/users/unfollow/${other}`, {}, config)
+        .post(`/api/users/unfollow/${other}`, {}, config)
         .then((res) => {
           const newFollow = res.data;
           setIsFollowing(false);

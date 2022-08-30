@@ -17,7 +17,7 @@ function LogIn(props) {
   function submitForm(e) {
     e.preventDefault();
     axios
-      .post('/auth/login', {
+      .post('/api/auth/login', {
         username, password,
       })
       .then((res) => {

@@ -24,7 +24,7 @@ function ChangeProfilePic(props) {
     }
 
     axios
-      .post('/users/image', body, config)
+      .post('/api/users/image', body, config)
       .then((res) => {
         navigate(`/users/${props.user._id}`);
       })

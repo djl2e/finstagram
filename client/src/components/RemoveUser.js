@@ -13,7 +13,7 @@ function RemoveUser(props) {
       }
     }
     axios
-      .post('/users/delete', {}, config)
+      .post('/api/users/delete', {}, config)
       .then((res) => {
         localStorage.setItem('token', JSON.stringify(null));
         props.setUser(undefined);

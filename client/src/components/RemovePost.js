@@ -16,7 +16,7 @@ function RemovePost(props) {
       }
     }
     axios
-      .post(`/posts/${postId}/delete`, {}, config)
+      .post(`/api/posts/${postId}/delete`, {}, config)
       .then((res) => {
         navigate(`/users/${mainUserId}`);
       })

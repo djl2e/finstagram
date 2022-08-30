@@ -27,7 +27,7 @@ function Post(props) {
       }
     }
     axios
-      .get(`/posts/${id}`, config)
+      .get(`/api/posts/${id}`, config)
       .then((res) => {
         setPost(res.data.post);
         setImgSrc(`https://finstagram-images.s3.us-east-1.amazonaws.com/${res.data.post.image}`);

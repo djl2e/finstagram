@@ -42,7 +42,7 @@ function App() {
         }
       }
       axios
-        .get('/users/profile', config)
+        .get('/api/users/profile', config)
         .then((res) => {
           setUser(res.data.user);
         })

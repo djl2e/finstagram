@@ -32,7 +32,7 @@ function PostView(props) {
       }
     }
     axios
-      .get(`/users/${user}/mini`, config)
+      .get(`/api/users/${user}/mini`, config)
       .then((res) => {
         setUser(res.data.user);
         setIsLoading(false);
@@ -65,7 +65,7 @@ function PostView(props) {
       }
     }
     axios
-      .post(`/posts/${postId}/comments/${commentId}/delete`, {}, config)
+      .post(`/api/posts/${postId}/comments/${commentId}/delete`, {}, config)
       .then((res) => {
         setComments(comments.filter((comment) => {
           return comment._id !== commentId;

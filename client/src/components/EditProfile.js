@@ -24,7 +24,7 @@ function EditProfile(props) {
       'form-description': description,
     }
     axios
-      .post('/users/update', body, config)
+      .post('/api/users/update', body, config)
       .then((res) => {
           navigate(`/users/${user._id}`);
       })

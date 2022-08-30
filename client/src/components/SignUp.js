@@ -14,7 +14,7 @@ function SignUp() {
   function submitForm(e) {
     e.preventDefault();
     axios
-      .post('/auth/signup', {
+      .post('/api/auth/signup', {
         'form-name': fullname,
         'form-username': username,
         'form-password': password,

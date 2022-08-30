@@ -16,7 +16,7 @@ function Home(props) {
       }
     }
     axios
-      .get('/posts/home', config)
+      .get('/api/posts/home', config)
       .then((res) => {
         setPosts(res.data);
         setIsLoading(false);

@@ -22,7 +22,7 @@ function ChangePassword(props) {
       'form-confirm': confirm,
     }
     axios
-      .post('/users/password', body, config)
+      .post('/api/users/password', body, config)
       .then((res) => {
         navigate(`/users/${props.user._id}`);
       })

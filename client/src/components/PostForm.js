@@ -24,7 +24,7 @@ function PostForm() {
     }
 
     axios
-      .post('/posts/create', body, config)
+      .post('/api/posts/create', body, config)
       .then((res) => {
         navigate('../users/profile');
       })

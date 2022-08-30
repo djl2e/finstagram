@@ -14,7 +14,7 @@ function UserSuggestion() {
       }
     }
     axios
-      .get('/users/suggested', config)
+      .get('/api/users/suggested', config)
       .then((res) => {
         setSuggested(res.data);
         setIsLoading(false);

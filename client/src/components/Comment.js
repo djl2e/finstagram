@@ -17,7 +17,7 @@ function Comment(props) {
       'form-comment': value,
     }
     axios
-      .post(`/posts/${id}/comments/create`, body, config)
+      .post(`/api/posts/${id}/comments/create`, body, config)
       .then((res) => {
         setValue('');
         const newComment = res.data;

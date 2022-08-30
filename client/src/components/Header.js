@@ -21,7 +21,7 @@ function Header(props) {
       }
     }
     axios
-      .get('/users/search', config)
+      .get('/api/users/search', config)
       .then((res) => {
         setSearchResult(res.data);
         setIsLoading(false);
@@ -41,7 +41,7 @@ function Header(props) {
       }
     }
     axios
-      .get('/users/search', config)
+      .get('/api/users/search', config)
       .then((res) => {
         setSearchResult(res.data);
       })

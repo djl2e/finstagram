@@ -12,7 +12,7 @@ function List(props) {
     const find = list.map((follow) => {
       if (type === "following") {
         return follow.followed;
-      } else if (type === "followed") {
+      } else if (type === "followers") {
         return follow.following;
       } else {
         return follow.likedBy;
@@ -27,7 +27,7 @@ function List(props) {
       }
     }
     axios
-      .get('/users/list', config)
+      .get('/api/users/list', config)
       .then((res) => {
         setFullList(res.data);
       })

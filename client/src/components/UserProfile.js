@@ -21,7 +21,7 @@ function UserProfile(props) {
       }
     }
     axios
-      .get(`/users/${id}`, config)
+      .get(`/api/users/${id}`, config)
       .then((res) => {
         const postsReceived = res.data.posts;
         postsReceived.sort((a, b) => (a.date > b.date) ? -1 : 1);

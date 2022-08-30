@@ -17,7 +17,7 @@ function EditPost(props) {
       'form-caption': newCaption
     }
     axios
-      .post(`/posts/${postId}/update`, body, config)
+      .post(`/api/posts/${postId}/update`, body, config)
       .then((res) => {
         const newPost = {...post}
         newPost.caption = newCaption;
