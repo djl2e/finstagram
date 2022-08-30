@@ -7,7 +7,8 @@
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false cd client && npm install && npm run build"
   },
   "engines": {
-    "node": "12.18.4"
+    "node": "12.18.4",
+    "npm": "8.3.1"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.145.0",
