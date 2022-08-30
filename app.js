@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const compression = require('compression');
+const helmet = require('helmet');
 require('./passport');
 
 dotenv.config();
@@ -31,12 +32,17 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'client', 'build')));
+app.use(express.static(path.join(__dirname, '../client/build')));
 app.use(compression());
+app.use(helmet());
 
 app.use('/auth', authRouter);
 app.use('/users', passport.authenticate('jwt', { session: false }), userRouter);
 app.use('/posts', passport.authenticate('jwt', { session: false }), postRouter);
 app.use('/posts/:post_id/comments', passport.authenticate('jwt', { session: false }), commentRouter);
+
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+});
 
 module.exports = app;
