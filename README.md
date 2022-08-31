@@ -24,7 +24,8 @@ Password: 123456
 - Like / Unlike
 - Comments
 
-### Etc
+### View
+- Sign up / Log in page
 - Home page (posts from users followed)
 - User profile page (display profile information and posts from user)
 - List pop ups (for followers, following, likes)
