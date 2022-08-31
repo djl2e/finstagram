@@ -59,14 +59,14 @@ cd .. && npm start // start the server - listens on localhost:3000
 ## Deployment (Heroku)
 - [Create a Heroku Account](https://id.heroku.com/login)
 - [Install Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
-- In the terminal, from the root directory run the following command lines:
+- In the terminal, from the root directory, run the following command lines:
 
 ```js
 heroku create
 git push heroku main
 ```
 
-## Build With
+## Built With
 - Express
 - React
 - MongoDB
@@ -75,6 +75,9 @@ git push heroku main
 - JSON Web Tokens
 - Multer
 
-## Image and icon creds
+## Authors
+- [Daniel Joseph Lee](https://github.com/djl2e)
+
+## Image and Icons from:
 - icons from [flaticon](https://www.flaticon.com)
 - [Stephanie Edwards on Pixabay](https://pixabay.com/users/wanderercreative-855399/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=973460)
