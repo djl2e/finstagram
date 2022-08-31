@@ -1,6 +1,6 @@
 # Finstagram
 
-[View Here](https://immense-gorge-38469.herokuapp.com/auth/login)
+[View Here](https://stormy-stream-02714.herokuapp.com/)
 
 *Image and icon creds*
 - icons from [flaticon](https://www.flaticon.com)
