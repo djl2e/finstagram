@@ -1,19 +1,28 @@
 const { body, validationResult } = require('express-validator');
 const upload = require('../aws-image/multer-file');
+const User = require('../models/user');
 const Post = require('../models/post');
 const Like = require('../models/like');
 const s3Image = require('../aws-image/s3-image');
 
 // list of posts for home page
 exports.home = (req, res, next) => {
-  Post.find()
-    .sort({ date: -1 })
-    .limit(20)
-    .populate('user')
-    .populate('likes')
-    .exec((err, posts) => {
+  const { user } = req;
+  User.findById(user._id)
+    .populate('following')
+    .exec((err, userInfo) => {
       if (err) return res.json(err);
-      res.json(posts);
+      const homeIds = userInfo.following.map((f) => f.followed);
+      homeIds.push(user._id);
+      Post.find({ user: { $in: homeIds } })
+        .sort({ date: -1 })
+        .limit(20)
+        .populate('user')
+        .populate('likes')
+        .exec((err, posts) => {
+          if (err) return res.json(err);
+          res.json(posts);
+        });
     });
 };
 
