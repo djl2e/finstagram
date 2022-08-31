@@ -46,7 +46,7 @@ function SignUp() {
       </div>
       <div className="login-link">
           <p>Have an account?</p>
-          <Link to="../auth/login">Log In</Link>
+          <Link to="/auth/login">Log In</Link>
         </div>
     </div>
   )

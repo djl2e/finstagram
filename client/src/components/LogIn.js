@@ -48,7 +48,7 @@ function LogIn(props) {
       </div>
       <div className="signup-link">
         <p>Don't have an account?</p>
-        <Link to="../auth/signup">Sign Up</Link>
+        <Link to="/auth/signup">Sign Up</Link>
       </div>
     </div>
   )
