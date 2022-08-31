@@ -3,6 +3,10 @@
 
 [Link to Deployed Project](https://stormy-stream-02714.herokuapp.com/)
 
+** Sample Account **
+Username: dlee
+Password: 123456
+
 ## Getting Started
 
 ### Clone repository
