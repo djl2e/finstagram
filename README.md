@@ -3,20 +3,22 @@
 
 [Link to Deployed Project](https://stormy-stream-02714.herokuapp.com/)
 
-** Sample Account **
+```js
+// Sample Account
 Username: dlee
 Password: 123456
+```
 
 ## Getting Started
 
 ### Clone repository
-```
+```js
 git clone git@github.com:djl2e/finstagram.git
 cd finstagram
 ```
 
 ### Set up environment variables
-```
+```js
 DATABASE_URL = <MongoDB URL>
 SECRET_KEY = <JWT Strategy Secret Key>
 AWS_SECRET_KEY = <AWS S3 Secret Ke>
@@ -26,7 +28,7 @@ REACT_APP_AWS_BUCKET = <AWS S3 Bucket Name>
 ```
 
 ### Install packages and start client
-```
+```js
 // from root directory
 npm i // install npm dependencies
 cd client && npm run build // build bundle with webpack
@@ -38,7 +40,7 @@ cd .. && npm start // start the server - listens on localhost:3000
 - [Install Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
 - In the terminal, from the root directory run the following command lines:
 
-```
+```js
 heroku create
 git push heroku main
 ```
