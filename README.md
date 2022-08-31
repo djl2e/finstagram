@@ -67,7 +67,13 @@ git push heroku main
 ```
 
 ## Build With
-
+- Express
+- React
+- MongoDB
+- Amazon S3 Bucket
+- Passport
+- JSON Web Tokens
+- Multer
 
 ## Image and icon creds
 - icons from [flaticon](https://www.flaticon.com)
