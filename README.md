@@ -9,6 +9,26 @@ Username: dlee
 Password: 123456
 ```
 
+## Features
+
+### Users
+- Sign up / Log in / Log out
+- Edit profile (description, profile picture, password)
+- Search user
+- User suggestions
+- Follow or unfollow
+
+### Posts
+- Create with an image and a caption
+- Edit caption
+- Like / Unlike
+- Comments
+
+### Etc
+- Home page (posts from users followed)
+- User profile page (display profile information and posts from user)
+- List pop ups (for followers, following, likes)
+
 ## Getting Started
 
 ### Clone repository
@@ -44,6 +64,9 @@ cd .. && npm start // start the server - listens on localhost:3000
 heroku create
 git push heroku main
 ```
+
+## Build With
+
 
 ## Image and icon creds
 - icons from [flaticon](https://www.flaticon.com)
