@@ -9,6 +9,32 @@ Username: dlee
 Password: 123456
 ```
 
+## Pictures
+```md
+<details>
+ <summary>Login Page</summary>
+ <img src="./readme_images/login1" name="login page">
+ <img src="./readme_images/login2" name="signup page">
+</details>
+<details>
+ <summary>Home Page</summary>
+ <img src="./readme_images/home1" name="home page">
+ <img src="./readme_images/home2" name="search bar">
+</details>
+<details>
+ <summary>Profile Page</summary>
+ <img src="./readme_images/profile1" name="user profile page">
+ <img src="./readme_images/profile2" name="user following list">
+ <img src="./readme_images/profile3" name="other user profile page">
+</details>
+<details>
+ <summary>Post Page</summary>
+ <img src="./readme_images/post1" name="user post page">
+ <img src="./readme_images/post2" name="anoter user post page">
+ <img src="./readme_images/post3" name="post liked list">
+</details>
+```
+
 ## Features
 
 ### Users
