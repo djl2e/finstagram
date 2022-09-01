@@ -17,7 +17,7 @@ Password: 123456
 </details>
 <details>
  <summary>Home Page</summary>
- <img src="readme_images/home1" name="home page">
+ <img src="https://github.com/djl2e/finstagram/blob/8cb848cdcf8347e921637db2d47e46098e26afd5/readme_images/home1.png" name="home page">
  <img src="readme_images/home2" name="search bar">
 </details>
 <details>
