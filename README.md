@@ -10,7 +10,7 @@ Password: 123456
 ```
 
 ## Pictures
-```md
+```html
 <details>
  <summary>Login Page</summary>
  <img src="./readme_images/login1" name="login page">
