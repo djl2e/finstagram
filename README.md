@@ -10,7 +10,6 @@ Password: 123456
 ```
 
 ## Pictures
-```html
 <details>
  <summary>Login Page</summary>
  <img src="./readme_images/login1" name="login page">
@@ -33,7 +32,6 @@ Password: 123456
  <img src="./readme_images/post2" name="anoter user post page">
  <img src="./readme_images/post3" name="post liked list">
 </details>
-```
 
 ## Features
 
