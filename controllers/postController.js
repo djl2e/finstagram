@@ -1,9 +1,9 @@
 const { body, validationResult } = require('express-validator');
-const upload = require('../aws-image/multer-file');
+const s3Upload = require('../aws-image/s3-upload');
 const User = require('../models/user');
 const Post = require('../models/post');
 const Like = require('../models/like');
-const s3Image = require('../aws-image/s3-image');
+const s3Remove = require('../aws-image/s3-remove');
 
 // list of posts for home page
 exports.home = (req, res, next) => {
@@ -28,9 +28,8 @@ exports.home = (req, res, next) => {
 
 // create new post - user from token, caption and image from form
 exports.create_post = [
-  upload.single('form-image'),
   body('form-caption').trim().escape(),
-  (req, res, next) => {
+  async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const error = errors.array()[0];
@@ -41,12 +40,17 @@ exports.create_post = [
     }
 
     const { user } = req;
+    const file = req.files['form-image'][0];
+
     const caption = req.body['form-caption'];
-    const image = req.file.key;
     const date = Date.now();
 
+    const key = date + file.originalname;
+    const newFile = await s3Upload.sharpify(file, 1040, 1120);
+    await s3Upload.upload_image(newFile, key);
+
     const post = new Post({
-      user, caption, image, date,
+      user, caption, image: key, date,
     });
 
     post.save((err, newPost) => {
@@ -79,7 +83,7 @@ exports.update_post = [
 
 exports.delete_post = async (req, res, next) => {
   const post = await Post.findById(req.params.id);
-  await s3Image.delete_image(post.image);
+  await s3Remove.delete_image(post.image);
 
   Post.findByIdAndRemove(req.params.id, (err) => {
     if (err) return res.json(err);

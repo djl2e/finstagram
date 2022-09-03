@@ -3,7 +3,7 @@ const Post = require('./post');
 const Comment = require('./comment');
 const Follow = require('./follow');
 const Like = require('./like');
-const s3Image = require('../aws-image/s3-image');
+const s3Remove = require('../aws-image/s3-remove');
 
 const { Schema } = mongoose;
 
@@ -23,7 +23,7 @@ UserSchema
     const posts = await Post.find({ user: id });
 
     Promise.all(
-      posts.map((post) => s3Image.delete_image(post.image)),
+      posts.map((post) => s3Remove.delete_image(post.image)),
     );
 
     Promise.all([

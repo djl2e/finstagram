@@ -1,4 +1,5 @@
 const express = require('express');
+const multer = require('multer');
 
 const router = express.Router();
 
@@ -8,7 +9,7 @@ const postController = require('../controllers/postController');
 router.get('/home', postController.home);
 
 // POST create
-router.post('/create', postController.create_post);
+router.post('/create', multer().fields([{ name: 'form-image' }]), postController.create_post);
 
 // POST update
 router.post('/:id/update', postController.update_post);

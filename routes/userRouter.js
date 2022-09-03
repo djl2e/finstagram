@@ -1,4 +1,5 @@
 const express = require('express');
+const multer = require('multer');
 
 const router = express.Router();
 
@@ -23,7 +24,7 @@ router.post('/update', userController.update_post);
 router.post('/password', userController.password_post);
 
 // POST image update
-router.post('/image', userController.image_post);
+router.post('/image', multer().fields([{ name: 'form-user-image' }]), userController.image_post);
 
 // POST delete
 router.post('/delete', userController.delete_post);

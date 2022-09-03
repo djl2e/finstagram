@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 const { body, validationResult } = require('express-validator');
 const User = require('../models/user');
 const Follow = require('../models/follow');
-const s3Image = require('../aws-image/s3-image');
-const upload = require('../aws-image/multer-file');
+const s3Remove = require('../aws-image/s3-remove');
+const s3Upload = require('../aws-image/s3-upload');
 
 dotenv.config();
 
@@ -120,7 +120,6 @@ exports.update_post = [
 
   async (req, res, next) => {
     const errors = validationResult(req);
-    console.log(errors);
 
     if (!errors.isEmpty()) {
       const error = errors.array()[0];
@@ -185,26 +184,27 @@ exports.password_post = [
   },
 ];
 
-exports.image_post = [
-  upload.single('form-user-image'),
-  async (req, res, next) => {
-    const { user } = req;
+exports.image_post = async (req, res, next) => {
+  const { user } = req;
+  const file = req.files['form-user-image'] ? req.files['form-user-image'][0] : null;
 
-    if (user.image !== 'blank.png') {
-      await s3Image.delete_image(user.image);
-    }
+  if (user.image !== 'blank.png') {
+    await s3Remove.delete_image(user.image);
+  }
 
-    let image = 'blank.png';
-    if (req.file) {
-      image = req.file.key;
-    }
+  let image = 'blank.png';
+  if (file) {
+    const key = Date.now() + file.originalname;
+    const newFile = await s3Upload.sharpify(file, 300, 300);
+    await s3Upload.upload_image(newFile, key);
+    image = key;
+  }
 
-    User.findByIdAndUpdate(user._id, { image }, {}, (err, updatedUser) => {
-      if (err) return res.json(err);
-      res.json('User image updated');
-    });
-  },
-];
+  User.findByIdAndUpdate(user._id, { image }, {}, (err, updatedUser) => {
+    if (err) return res.json(err);
+    res.json('User image updated');
+  });
+};
 
 // user (id) follow another user (otherid)
 exports.follow_post = (req, res, next) => {
@@ -249,7 +249,7 @@ exports.delete_post = async (req, res, next) => {
   const { image } = user;
 
   if (image !== 'blank.png') {
-    await s3Image.delete_image(image);
+    await s3Remove.delete_image(image);
   }
 
   User.findByIdAndRemove(id, (err) => {
