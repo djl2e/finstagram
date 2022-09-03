@@ -97,6 +97,7 @@ git push heroku main
 - Amazon S3 Bucket
 - Passport
 - JSON Web Tokens
+- Sharp
 - Multer
 
 ## Authors
