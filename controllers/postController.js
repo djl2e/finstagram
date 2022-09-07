@@ -46,8 +46,8 @@ exports.create_post = [
     const date = Date.now();
 
     const key = date + file.originalname;
-    const newFile = await s3Upload.sharpify(file, 1040, 1120);
-    await s3Upload.upload_image(newFile, key);
+    // const newFile = await s3Upload.sharpify(file, 1040, 1120);
+    await s3Upload.upload_image(file, key);
 
     const post = new Post({
       user, caption, image: key, date,
