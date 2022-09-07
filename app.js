@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const compression = require('compression');
+const passport = require('passport');
 require('./passport');
 
 dotenv.config();
@@ -16,7 +17,6 @@ mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error'));
 
-const passport = require('passport');
 const authRouter = require('./routes/authRouter');
 const userRouter = require('./routes/userRouter');
 const postRouter = require('./routes/postRouter');
@@ -31,7 +31,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, './client/build')));
+app.use(express.static(path.join(__dirname, './client/public')));
 app.use(compression());
 
 app.use('/api/auth', authRouter);
@@ -40,7 +40,7 @@ app.use('/api/posts', passport.authenticate('jwt', { session: false }), postRout
 app.use('/api/posts/:post_id/comments', passport.authenticate('jwt', { session: false }), commentRouter);
 
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, './client/build', 'index.html'));
+  res.sendFile(path.resolve(__dirname, './client/public', 'index.html'));
 });
 
 module.exports = app;

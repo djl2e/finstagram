@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from 'axios';
 import List from './List';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import '../style/Exp.css';
 
 function Like(props) {
@@ -56,7 +58,7 @@ function Like(props) {
   return (
     <div className="likes">
       <button className="like-button" onClick={onClick}>
-        <img src={hasLiked ? fullSrc : emptySrc} alt="likes" />
+        <LazyLoadImage src={hasLiked ? fullSrc : emptySrc} alt="likes" height="25" width="auto" effect="blur"/>
       </button>
       <button className="show-likes" onClick={(e) => setShow('likes')}>
         <p>Liked by <strong>{likes.length}</strong> {likes.length === 1 ? "user" : "users"}</p>

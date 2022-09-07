@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import '../style/View.css';
 
 function MiniView(props) {
@@ -14,7 +16,7 @@ function MiniView(props) {
   return (
     <div className="mini-view">
       <Link to={`/users/${user._id}`} className="user-mini-cropper" onClick={(e) => hide(e)}>
-        <img src={imgSrc} alt="user mini" className="user-mini-img"/>
+        <LazyLoadImage src={imgSrc} className="user-mini-img" effect="blur" height="150" width="auto"/>
       </Link>
       <div className="mini-info">
         <Link to={`/users/${user._id}`} onClick={(e) => hide(e)}>

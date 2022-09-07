@@ -90,13 +90,13 @@ function Header(props) {
       </div>
       <nav>
         <Link to="/">
-          <img src={imgSrc + 'home.png'} alt="home" />
+          <img src={imgSrc + 'home.png'} alt="home" height="30" width="auto"/>
         </Link>
         <Link to="/posts/create">
-          <img src={imgSrc + 'add.png'} alt="new post" />
+          <img src={imgSrc + 'add.png'} alt="new post" height="30" width="auto"/>
         </Link>
         <Link to={"/users/" + userId}>
-          <img src={imgSrc + 'user.png'} alt="profile" />
+          <img src={imgSrc + 'user.png'} alt="profile" height="30" width="auto"/>
         </Link>
         <button onClick={signout}>Log Out</button>
       </nav>

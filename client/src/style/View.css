@@ -80,6 +80,11 @@
   text-align: center;
 }
 
+.user-mini-cropper .lazy-load-image-background.blur.lazy-load-image-loaded {
+  height: 100% !important;
+  width: 100% !important;
+}
+
 .user-mini-img {
   object-fit: cover;
   display: inline;
