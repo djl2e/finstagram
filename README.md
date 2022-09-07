@@ -99,6 +99,7 @@ git push heroku main
 - JSON Web Tokens
 - Sharp
 - Multer
+- React Lazy Load Image Component
 
 ## Authors
 - [Daniel Joseph Lee](https://github.com/djl2e)
