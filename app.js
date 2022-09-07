@@ -31,7 +31,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, './client/public')));
+app.use(express.static(path.join(__dirname, './client/build')));
 app.use(compression());
 
 app.use('/api/auth', authRouter);
@@ -40,7 +40,7 @@ app.use('/api/posts', passport.authenticate('jwt', { session: false }), postRout
 app.use('/api/posts/:post_id/comments', passport.authenticate('jwt', { session: false }), commentRouter);
 
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, './client/public', 'index.html'));
+  res.sendFile(path.resolve(__dirname, './client/build', 'index.html'));
 });
 
 module.exports = app;
