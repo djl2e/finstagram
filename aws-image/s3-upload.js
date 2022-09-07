@@ -39,6 +39,8 @@ exports.sharpify = async (file, maxHeight, maxWidth) => {
         width: maxWidth,
         withoutEnlargement: true,
       });
+
+    console.log(newFile);
     return newFile;
   } catch (err) {
     throw new Error(err);

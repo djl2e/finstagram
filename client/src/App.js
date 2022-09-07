@@ -44,8 +44,6 @@ function App() {
       axios
         .get('/api/users/profile', config)
         .then((res) => {
-          console.log(JSON.parse(localStorage.getItem('token')));
-          console.log(res.data);
           setUser(res.data.user);
         })
         .catch((err) => {
