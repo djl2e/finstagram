@@ -20,15 +20,15 @@ const s3 = new S3Client({
 exports.sharpify = async (file, maxHeight, maxWidth) => {
   try {
     const image = sharp(file.buffer);
-    // const meta = await image.metadata();
-    // const { format } = meta;
-    // const config = {
-    //   jpeg: { quality: 100 },
-    //   webp: { quality: 100 },
-    //   png: { quality: 100 },
-    // };
+    const meta = await image.metadata();
+    const { format } = meta;
+    const config = {
+      jpeg: { quality: 100 },
+      webp: { quality: 100 },
+      png: { quality: 100 },
+    };
 
-    const newFile = image
+    const newFile = await image[format](config[format])
       .resize({
         height: maxHeight,
         width: null,
