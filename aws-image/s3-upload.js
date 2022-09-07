@@ -23,9 +23,9 @@ exports.sharpify = async (file, maxHeight, maxWidth) => {
     const meta = await image.metadata();
     const { format } = meta;
     const config = {
-      jpeg: { quality: 85 },
-      webp: { quality: 85 },
-      png: { quality: 85 },
+      jpeg: { quality: 100 },
+      webp: { quality: 100 },
+      png: { quality: 100 },
     };
 
     const newFile = await image[format](config[format])
