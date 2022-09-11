@@ -1,6 +1,8 @@
 # Finstagram
 > An Instagram-inspired social media website created as a portfolio project
 
+![](name-of-giphy.gif)
+
 [Link to Deployed Project](https://stormy-stream-02714.herokuapp.com/)
 
 ```js
@@ -8,30 +10,6 @@
 Username: dlee
 Password: 123456
 ```
-
-## Pictures
-<details>
- <summary>Login Page</summary>
- <img src="https://github.com/djl2e/finstagram/blob/6e736642f56453267f2e9f0ab84f1df0b827f7e0/readme_images/login1.png" name="login page">
- <img src="https://github.com/djl2e/finstagram/blob/6e736642f56453267f2e9f0ab84f1df0b827f7e0/readme_images/login2.png" name="signup page">
-</details>
-<details>
- <summary>Home Page</summary>
- <img src="https://github.com/djl2e/finstagram/blob/8cb848cdcf8347e921637db2d47e46098e26afd5/readme_images/home1.png" name="home page">
- <img src="https://github.com/djl2e/finstagram/blob/6e736642f56453267f2e9f0ab84f1df0b827f7e0/readme_images/home2.png" name="search bar">
-</details>
-<details>
- <summary>Profile Page</summary>
- <img src="https://github.com/djl2e/finstagram/blob/6e736642f56453267f2e9f0ab84f1df0b827f7e0/readme_images/profile1.png" name="user profile page">
- <img src="https://github.com/djl2e/finstagram/blob/6e736642f56453267f2e9f0ab84f1df0b827f7e0/readme_images/profile2.png" name="user following list">
- <img src="https://github.com/djl2e/finstagram/blob/6e736642f56453267f2e9f0ab84f1df0b827f7e0/readme_images/profile3.png" name="other user profile page">
-</details>
-<details>
- <summary>Post Page</summary>
- <img src="https://github.com/djl2e/finstagram/blob/6e736642f56453267f2e9f0ab84f1df0b827f7e0/readme_images/post1.png" name="user post page">
- <img src="https://github.com/djl2e/finstagram/blob/6e736642f56453267f2e9f0ab84f1df0b827f7e0/readme_images/post2.png" name="anoter user post page">
- <img src="https://github.com/djl2e/finstagram/blob/6e736642f56453267f2e9f0ab84f1df0b827f7e0/readme_images/post3.png" name="post liked list">
-</details>
 
 ## Features
 
