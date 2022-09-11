@@ -1,7 +1,7 @@
 # Finstagram
 > An Instagram-inspired social media website created as a portfolio project
 
-![](name-of-giphy.gif)
+![](finstagram_gif.gif)
 
 [Link to Deployed Project](https://stormy-stream-02714.herokuapp.com/)
 
