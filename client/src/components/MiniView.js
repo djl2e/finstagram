@@ -14,7 +14,7 @@ function MiniView(props) {
   }
 
   return (
-    <div className="mini-view">
+    <div className= "mini-view" tabIndex="0">
       <Link to={`/users/${user._id}`} className="user-mini-cropper" onClick={(e) => hide(e)}>
         <LazyLoadImage src={imgSrc} className="user-mini-img" effect="blur" height="150" width="auto"/>
       </Link>
