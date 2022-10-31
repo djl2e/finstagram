@@ -50,6 +50,10 @@
   padding: 5px 0 10px 37px;
 }
 
+.comment input {
+  background-color: inherit;
+}
+
 .home-suggestions {
   display: flex;
   flex-direction: column;
