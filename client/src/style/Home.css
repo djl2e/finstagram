@@ -30,6 +30,10 @@
   align-items: center;
 }
 
+.home-img-container span {
+  max-height: 600px;
+}
+
 .home-img-container img {
   max-width: 470px;
   max-height: 600px;
