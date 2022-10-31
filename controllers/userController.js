@@ -10,29 +10,39 @@ const s3Upload = require('../aws-image/s3-upload');
 dotenv.config();
 
 // search for another user
-// username that starts with keyword gets precedence
-// next is username that contains the keyword
+// username that starts with keyword gets precedence (sorted by followed or not)
+// next is username that contains the keyword (similarly sorted)
 exports.search = (req, res, next) => {
   const { search } = req.query;
+  const mainId = req.user._id;
   const { username } = req.user;
-  User.find({ username: new RegExp(`^${search}`, 'i') })
-    .sort({ username: 1 })
-    .limit(20)
-    .exec((err, initialSearch) => {
+  Follow.find({ following: mainId })
+    .exec((err, followList) => {
       if (err) res.json(err);
-      if (initialSearch.length === 20) {
-        res.json(initialSearch);
-      }
-      const remainingLength = 20 - initialSearch.length;
-      const blacklist = initialSearch.map((user) => user._id.toString());
-      User.find({ username: new RegExp(`.+${search}`, 'i'), _id: { $nin: blacklist } })
-        .sort({ username: 1 })
-        .limit(remainingLength)
-        .exec((err, remainingSearch) => {
-          if (err) return res.json(err);
-          const finalSearch = initialSearch.concat(...remainingSearch)
-            .filter((user) => user.username !== username);
-          res.json(finalSearch);
+      const followed = followList.map((fl) => fl.followed.toString());
+      User.find({ username: new RegExp(`^${search}`, 'i') })
+        .limit(20)
+        .exec((err, initialSearch) => {
+          if (err) res.json(err);
+          if (initialSearch.length === 20) {
+            res.json(initialSearch);
+          }
+          initialSearch.sort(
+            (a, b) => followed.includes(b._id.toString()) - followed.includes(a._id.toString()),
+          );
+          const remainingLength = 20 - initialSearch.length;
+          const blacklist = initialSearch.map((user) => user._id.toString());
+          User.find({ username: new RegExp(`.+${search}`, 'i'), _id: { $nin: blacklist } })
+            .limit(remainingLength)
+            .exec((err, remainingSearch) => {
+              if (err) return res.json(err);
+              remainingSearch.sort(
+                (a, b) => followed.includes(b._id.toString()) - followed.includes(a._id.toString()),
+              );
+              const finalSearch = initialSearch.concat(...remainingSearch)
+                .filter((user) => user.username !== username);
+              res.json(finalSearch);
+            });
         });
     });
 };
