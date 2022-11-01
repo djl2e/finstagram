@@ -4,45 +4,79 @@ const mongoose = require('mongoose');
 const { body, validationResult } = require('express-validator');
 const User = require('../models/user');
 const Follow = require('../models/follow');
+const Like = require('../models/like');
+const Comment = require('../models/comment');
 const s3Remove = require('../aws-image/s3-remove');
 const s3Upload = require('../aws-image/s3-upload');
 
 dotenv.config();
 
+let searchAlgo;
+
+const findSearchAlgo = async (id) => {
+  searchAlgo = {};
+  await User.find({})
+    .exec((err, lst) => {
+      if (err) console.log(err);
+      lst.map((user) => {
+        searchAlgo[user._id.toString()] = 0;
+      });
+    });
+  Follow.find({ following: id }, (err, follow) => {
+    if (err) console.log(err);
+    follow.map((fl) => {
+      searchAlgo[fl.followed.toString()] += 10000;
+    });
+  });
+  Like.find({ likedBy: id })
+    .populate('post')
+    .exec((err, likes) => {
+      if (err) console.log(err);
+      likes.map((like) => {
+        searchAlgo[like.post.user.toString()] += 1;
+      });
+    });
+  Comment.find({ user: id })
+    .populate('post')
+    .exec((err, likes) => {
+      if (err) console.log(err);
+      likes.map((like) => {
+        searchAlgo[like.post.user.toString()] += 1;
+      });
+    });
+};
+
 // search for another user
 // username that starts with keyword gets precedence (sorted by followed or not)
 // next is username that contains the keyword (similarly sorted)
-exports.search = (req, res, next) => {
-  const { search } = req.query;
+exports.search = async (req, res, next) => {
   const mainId = req.user._id;
+  if (searchAlgo === undefined) {
+    await findSearchAlgo(mainId);
+  }
+  const { search } = req.query;
   const { username } = req.user;
-  Follow.find({ following: mainId })
-    .exec((err, followList) => {
+
+  User.find({ username: new RegExp(`^${search}`, 'i') })
+    .limit(20)
+    .exec((err, initialSearch) => {
       if (err) res.json(err);
-      const followed = followList.map((fl) => fl.followed.toString());
-      User.find({ username: new RegExp(`^${search}`, 'i') })
-        .limit(20)
-        .exec((err, initialSearch) => {
-          if (err) res.json(err);
-          if (initialSearch.length === 20) {
-            res.json(initialSearch);
-          }
-          initialSearch.sort(
-            (a, b) => followed.includes(b._id.toString()) - followed.includes(a._id.toString()),
+      if (initialSearch.length === 20) {
+        res.json(initialSearch);
+      }
+      initialSearch.sort((a, b) => searchAlgo[b._id.toString()] - searchAlgo[a._id.toString()]);
+      const remainingLength = 20 - initialSearch.length;
+      const blacklist = initialSearch.map((user) => user._id.toString());
+      User.find({ username: new RegExp(`.+${search}`, 'i'), _id: { $nin: blacklist } })
+        .limit(remainingLength)
+        .exec((err, remainingSearch) => {
+          if (err) return res.json(err);
+          remainingSearch.sort(
+            (a, b) => searchAlgo[b._id.toString()] - searchAlgo[a._id.toString()],
           );
-          const remainingLength = 20 - initialSearch.length;
-          const blacklist = initialSearch.map((user) => user._id.toString());
-          User.find({ username: new RegExp(`.+${search}`, 'i'), _id: { $nin: blacklist } })
-            .limit(remainingLength)
-            .exec((err, remainingSearch) => {
-              if (err) return res.json(err);
-              remainingSearch.sort(
-                (a, b) => followed.includes(b._id.toString()) - followed.includes(a._id.toString()),
-              );
-              const finalSearch = initialSearch.concat(...remainingSearch)
-                .filter((user) => user.username !== username);
-              res.json(finalSearch);
-            });
+          const finalSearch = initialSearch.concat(...remainingSearch)
+            .filter((user) => user.username !== username);
+          res.json(finalSearch);
         });
     });
 };
@@ -68,6 +102,7 @@ exports.suggested = (req, res, next) => {
       User.aggregate([{ $match: { _id: { $nin: blacklist } } }, { $sample: { size: 5 } }])
         .exec((err, suggested) => {
           if (err) res.json(err);
+          suggested.sort((a, b) => searchAlgo[a._id.toString()] - searchAlgo[b._id.toString()]);
           res.json(suggested);
         });
     });

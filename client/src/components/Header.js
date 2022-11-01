@@ -10,7 +10,7 @@ function Header(props) {
   const [searchValue, setSearchValue] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const imgSrc = 'https://finstagram-images.s3.us-east-1.amazonaws.com/';
-
+  
   useEffect(() => {
     const config = {
       headers: { 
@@ -29,7 +29,7 @@ function Header(props) {
       .catch((err) => {
         console.log(err);
       })
-  }, [])  
+  }, []);
 
   useEffect(() => {
     const config = {
